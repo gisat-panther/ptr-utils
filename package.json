@@ -1,6 +1,6 @@
 {
-  "name": "@gisat_cz/ptr-utils",
-  "version": "1.0.2",
+  "name": "@gisat/ptr-utils",
+  "version": "1.0.1",
   "description": "Panther FE utils",
   "keywords": [
     "panther",
