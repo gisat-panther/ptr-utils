@@ -5,11 +5,6 @@ import period from "./period";
 export default {
 
 	period,
-	addI18nResources(i18n, namespace, resources){
-		forIn(resources, (resource, language) => {
-			i18n.addResourceBundle(language, namespace, resource, true, true);
-		});
-	},
 
 	/**
 	 * Generates v4 compliant UUID
