@@ -1,4 +1,4 @@
-import {find, findIndex} from 'lodash';
+import _ from 'lodash';
 
 const MAX_SIZE = 100;
 
@@ -44,11 +44,11 @@ class CacheFifo {
 	}
 
 	findIndexByKey(cacheKey) {
-		return findIndex(this.data, {cacheKey});
+		return _.findIndex(this.data, {cacheKey});
 	}
 
 	findByKey(cacheKey) {
-		return find(this.data, {cacheKey});
+		return _.find(this.data, {cacheKey});
 	}
 }
 

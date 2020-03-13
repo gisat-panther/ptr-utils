@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {isObject} from 'lodash';
+import _ from 'lodash';
 
 const parse = string => {
 	if (string.match(/\/P/)) {
@@ -90,7 +90,7 @@ const parseOne = string => {
 };
 
 const toString = period => {
-	if (!(isObject(period) && period.start && period.end && period.type)) throw new Error('Invalid period supplied to period.toString');
+	if (!(_.isObject(period) && period.start && period.end && period.type)) throw new Error('Invalid period supplied to period.toString');
 	switch (period.type) {
 		case 'interval':
 			return period.start.format('YYYY-MM-DD h:mm:ss') + ' - ' + period.end.format('YYYY-MM-DD h:mm:ss');

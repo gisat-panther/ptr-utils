@@ -8,6 +8,9 @@
 
 # production
 /build
+/dist
+/lib
+
 
 # misc
 /.idea

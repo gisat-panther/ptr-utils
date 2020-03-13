@@ -1,4 +1,4 @@
-import {isNumber} from 'lodash';
+import _ from 'lodash';
 
 const quartilePercentiles = [0, .166, .333, .5, .666, .833, 1];
 
@@ -83,8 +83,8 @@ const mergeAttributeStatistics = (statistics = []) => {
     mergedStatistics.percentile[mergedStatistics.percentile.length - 1] = mergedStatistics.max;
 
     //check if min and max is filled
-    const minFilled = isNumber(mergedStatistics.min);
-    const maxFilled = isNumber(mergedStatistics.max);
+    const minFilled = _.isNumber(mergedStatistics.min);
+    const maxFilled = _.isNumber(mergedStatistics.max);
 
     return minFilled && maxFilled ? mergedStatistics : null;
 };

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import fetch from "isomorphic-fetch";
+import "isomorphic-fetch";
 import * as turf from '@turf/turf';
 import createCachedSelector from "re-reselect";
 

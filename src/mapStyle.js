@@ -1,4 +1,4 @@
-import each from 'lodash/each';
+import _ from 'lodash';
 import chroma from 'chroma-js';
 
 const DEFAULT_STYLE_OBJECT = {
@@ -17,7 +17,7 @@ function getStyleObject(attributes, styleDefinition, omitDefault) {
     let finalStyleObject = {};
 
     if (styleDefinition && styleDefinition.rules) {
-        each(styleDefinition.rules, (rule) => {
+        _.each(styleDefinition.rules, (rule) => {
             if (rule.filter) {
                 // TODO apply filter
             }
@@ -76,7 +76,7 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
  */
 function getStyleObjectForAttributeClasses(attributeClasses, value) {
     let styleObject = {};
-    each(attributeClasses, attributeClass => {
+    _.each(attributeClasses, attributeClass => {
         let {interval, intervalBounds, ...style} = attributeClass;
 
         if (!intervalBounds) {
@@ -182,7 +182,7 @@ function isGreaterThan(comparedValue, referenceValue, allowEquality) {
 }
 
 function doMathOperations(operations, value) {
-    each(operations, operation => {
+    _.each(operations, operation => {
         if (operation === 'abs') {
             value = Math.abs(value);
         } else if (operation === 'sign') {

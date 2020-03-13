@@ -1,7 +1,4 @@
-import map from 'lodash/map';
-import get from 'lodash/get';
-import set from 'lodash/set';
-import {each, filter, isArray} from 'lodash';
+import _ from 'lodash';
 
 /**
  *
@@ -15,26 +12,26 @@ function filterDataWithNullValue (data, valueSourcePaths, serieSourcePath, allVa
 	if (!serieSourcePath) {
 		return filterData(data, valueSourcePaths, allValuesNull);
 	} else {
-		let withoutNullValues = map(data, item => {
-			let data = get(item, serieSourcePath);
+		let withoutNullValues = _.map(data, item => {
+			let data = _.get(item, serieSourcePath);
 			let filteredData = filterData(data, valueSourcePaths);
-			return set({...item}, serieSourcePath, filteredData);
+			return _.set({...item}, serieSourcePath, filteredData);
 		});
 
-		return filter(withoutNullValues, (item) => {
-			let data = get(item, serieSourcePath);
+		return _.filter(withoutNullValues, (item) => {
+			let data = _.get(item, serieSourcePath);
 			return data && data.length !== 0;
 		});
 	}
 }
 
 function filterData (data, valueSourcePaths, allValuesNull) {
-	return filter(data, (item) => {
-		if (isArray(valueSourcePaths)) {
+	return _.filter(data, (item) => {
+		if (_.isArray(valueSourcePaths)) {
 			if (allValuesNull) {
 				let unfitFilter = 0;
-				each(valueSourcePaths, (path) => {
-					let val = get(item, path);
+				_.each(valueSourcePaths, (path) => {
+					let val = _.get(item, path);
 					if (!val && val !==0) {
 						unfitFilter++;
 					}
@@ -42,8 +39,8 @@ function filterData (data, valueSourcePaths, allValuesNull) {
 				return unfitFilter !== valueSourcePaths.length;
 			} else {
 				let fitsFilter = true;
-				each(valueSourcePaths, (path) => {
-					let val = get(item, path);
+				_.each(valueSourcePaths, (path) => {
+					let val = _.get(item, path);
 					if (!val && val !==0) {
 						fitsFilter = false
 					}
@@ -51,7 +48,7 @@ function filterData (data, valueSourcePaths, allValuesNull) {
 				return fitsFilter;
 			}
 		} else {
-			let val = get(item, valueSourcePaths);
+			let val = _.get(item, valueSourcePaths);
 			return val || val === 0;
 		}
 	});
