@@ -49,12 +49,12 @@
   "scripts": {
     "clean": "rimraf dist",
     "start": "run-s clean && run-p start:es start:cjs start:lib:es",
-    "start:lib:es": "BABEL_ENV=es babel --watch src -d lib --verbose",
-    "start:cjs": "NODE_ENV=cjs rollup -c -w",
-    "start:es": "NODE_ENV=es rollup -c -w",
+    "start:lib:es": "set BABEL_ENV=es&&babel --watch src -d lib --verbose",
+    "start:cjs": "set NODE_ENV=cjs&&rollup -c -w",
+    "start:es": "set NODE_ENV=es&&rollup -c -w",
     "build": "run-s clean && run-p build:es build:cjs build:lib:es",
-    "build:es": "NODE_ENV=es rollup -c",
-    "build:cjs": "NODE_ENV=cjs rollup -c",
-    "build:lib:es": "BABEL_ENV=es babel src -d lib"
+    "build:es": "set NODE_ENV=es&&rollup -c",
+    "build:cjs": "set NODE_ENV=cjs&&rollup -c",
+    "build:lib:es": "set BABEL_ENV=es&&babel src -d lib"
   }
 }
