@@ -38,6 +38,7 @@
     "babel-loader": "7.1.5",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "cross-env": "^7.0.2",
     "npm-run-all": "^4.1.5",
     "rollup": "^2.0.6",
     "rollup-plugin-babel": "^4.4.0",
@@ -49,12 +50,12 @@
   "scripts": {
     "clean": "rimraf dist",
     "start": "run-s clean && run-p start:es start:cjs start:lib:es",
-    "start:lib:es": "set BABEL_ENV=es&&babel --watch src -d lib --verbose",
-    "start:cjs": "set NODE_ENV=cjs&&rollup -c -w",
-    "start:es": "set NODE_ENV=es&&rollup -c -w",
+    "start:lib:es": "cross-env BABEL_ENV=es babel --watch src -d lib --verbose",
+    "start:cjs": "cross-env NODE_ENV=cjs rollup -c -w",
+    "start:es": "cross-env NODE_ENV=es rollup -c -w",
     "build": "run-s clean && run-p build:es build:cjs build:lib:es",
-    "build:es": "set NODE_ENV=es&&rollup -c",
-    "build:cjs": "set NODE_ENV=cjs&&rollup -c",
-    "build:lib:es": "set BABEL_ENV=es&&babel src -d lib"
+    "build:es": "cross-env NODE_ENV=es rollup -c",
+    "build:cjs": "cross-env NODE_ENV=cjs rollup -c",
+    "build:lib:es": "cross-env BABEL_ENV=es babel src -d lib"
   }
 }
