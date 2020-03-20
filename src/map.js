@@ -220,13 +220,19 @@ const mergeViews = createCachedSelector(
 
 
 function resetHeading(heading, callback, increment) {
+	heading %= 360;
+	if (heading < 0) {
+		heading += 360;
+	}
+
 	if (!increment) {
-		increment = 1.0;
-		if (Math.abs(heading) > 60) {
-			increment = 2.0;
-		} else if (Math.abs(heading) > 120) {
-			increment = 3.0;
+		increment = 3.0;
+		if (heading > 120 && heading < 240) {
+			increment = 5.0;
+		} else if (heading > 60 && heading < 300) {
+			increment = 8.0;
 		}
+
 		//set shortest direction based on angle
 		if (heading > 0 && heading < 180 || heading < 0 && heading < -180) {
 			increment = -increment;
