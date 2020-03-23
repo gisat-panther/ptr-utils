@@ -122,11 +122,24 @@ function getStyleObjectForAttributeScale(attributeScale, value) {
         return {
             outlineWidth: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
         }
+    } else if (parameter === "outlineColor") {
+        let scale = chroma.scale(definitions.outputInterval).domain(definitions.inputInterval);
+        return {
+            outlineColor: chroma(scale(value)).hex()
+        };
+    } else if (parameter === "outlineOpacity") {
+        return {
+            outlineOpacity: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
+        }
     } else if (parameter === "fill") {
         let scale = chroma.scale(definitions.outputInterval).domain(definitions.inputInterval);
         return {
             fill: chroma(scale(value)).hex()
         };
+    } else if (parameter === "fillOpacity") {
+        return {
+            fillOpacity: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
+        }
     } else if (parameter === "volume") {
         return {
             volume: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
@@ -174,10 +187,14 @@ function scaleValue (inputInterval, outputInterval, value) {
 }
 
 function isGreaterThan(comparedValue, referenceValue, allowEquality) {
-    if (allowEquality) {
-        return comparedValue >= referenceValue;
+    if (comparedValue || comparedValue === 0) {
+        if (allowEquality) {
+            return comparedValue >= referenceValue;
+        } else {
+            return comparedValue > referenceValue;
+        }
     } else {
-        return comparedValue > referenceValue;
+        return false;
     }
 }
 
