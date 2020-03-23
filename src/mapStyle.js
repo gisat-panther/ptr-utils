@@ -174,10 +174,14 @@ function scaleValue (inputInterval, outputInterval, value) {
 }
 
 function isGreaterThan(comparedValue, referenceValue, allowEquality) {
-    if (allowEquality) {
-        return comparedValue >= referenceValue;
+    if (comparedValue || comparedValue === 0) {
+        if (allowEquality) {
+            return comparedValue >= referenceValue;
+        } else {
+            return comparedValue > referenceValue;
+        }
     } else {
-        return comparedValue > referenceValue;
+        return false;
     }
 }
 
