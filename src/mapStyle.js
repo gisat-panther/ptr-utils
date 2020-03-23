@@ -9,6 +9,14 @@ const DEFAULT_STYLE_OBJECT = {
     outlineOpacity: 1
 };
 
+const DEFAULT_DIAGRAM_STYLE_OBJECT = {
+    diagramFill: "#87c7ff",
+    diagramFillOpacity: 1,
+    diagramOutlineColor: "#3b80ff",
+    diagramOutlineWidth: 1,
+    diagramOutlineOpacity: 1
+};
+
 const DEFAULT_SIZE = 15;
 
 // const FILTERED_STYLE_OBJECT ???
@@ -37,7 +45,13 @@ function getStyleObject(attributes, styleDefinition, omitDefault) {
         })
     }
 
-    return omitDefault ? finalStyleObject : {...DEFAULT_STYLE_OBJECT, ...finalStyleObject}
+    if (omitDefault) {
+        return finalStyleObject;
+    } else if (!finalStyleObject.diagramShape) {
+        return {...DEFAULT_STYLE_OBJECT, ...finalStyleObject}
+    } else {
+        return {...DEFAULT_STYLE_OBJECT, ...DEFAULT_DIAGRAM_STYLE_OBJECT, ...finalStyleObject}
+    }
 }
 
 /**
@@ -118,42 +132,31 @@ function getStyleObjectForAttributeScale(attributeScale, value) {
         value = doMathOperations(definitions.inputTransformation, value);
     }
 
-    if (parameter === "outlineWidth") {
-        return {
-            outlineWidth: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
-        }
-    } else if (parameter === "outlineColor") {
-        let scale = chroma.scale(definitions.outputInterval).domain(definitions.inputInterval);
-        return {
-            outlineColor: chroma(scale(value)).hex()
-        };
-    } else if (parameter === "outlineOpacity") {
-        return {
-            outlineOpacity: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
-        }
-    } else if (parameter === "fill") {
-        let scale = chroma.scale(definitions.outputInterval).domain(definitions.inputInterval);
-        return {
-            fill: chroma(scale(value)).hex()
-        };
-    } else if (parameter === "fillOpacity") {
-        return {
-            fillOpacity: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
-        }
-    } else if (parameter === "volume") {
-        return {
-            volume: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
-        };
-    } else if (parameter === "size") {
-        return {
-            size: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
-        };
-    } else if (parameter === "arrowLength") {
-        return {
-            arrowLength: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
-        }
-    } else {
-        return {};
+    switch (parameter) {
+        case "outlineWidth":
+        case "diagramOutlineWidth":
+        case "outlineOpacity":
+        case "diagramOpacity":
+        case "fillOpacity":
+        case "diagramFillOpacity":
+        case "size":
+        case "diagramSize":
+        case "volume":
+        case "diagramVolume":
+        case "arrowLength":
+            return {
+                [parameter]: scaleValue(definitions.inputInterval, definitions.outputInterval, value)
+            };
+        case "outlineColor":
+        case "diagramOutlineColor":
+        case "fill":
+        case "diagramFill":
+            let scale = chroma.scale(definitions.outputInterval).domain(definitions.inputInterval);
+            return {
+                [parameter]: chroma(scale(value)).hex()
+            };
+        default:
+            return {};
     }
 }
 
