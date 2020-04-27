@@ -1,27 +1,9 @@
 import _ from 'lodash';
 import chroma from 'chroma-js';
 
-const DEFAULT_STYLE_OBJECT = {
-    fill: "#ffffff",
-    fillOpacity: 1,
-    outlineColor: "#000000",
-    outlineWidth: 2,
-    outlineOpacity: 1
-};
-
-const DEFAULT_DIAGRAM_STYLE_OBJECT = {
-    diagramFill: "#87c7ff",
-    diagramFillOpacity: 1,
-    diagramOutlineColor: "#3b80ff",
-    diagramOutlineWidth: 1,
-    diagramOutlineOpacity: 1
-};
-
 const DEFAULT_SIZE = 15;
 
-// const FILTERED_STYLE_OBJECT ???
-
-function getStyleObject(attributes, styleDefinition, omitDefault) {
+function getStyleObject(attributes, styleDefinition) {
     let finalStyleObject = {};
 
     if (styleDefinition && styleDefinition.rules) {
@@ -45,13 +27,7 @@ function getStyleObject(attributes, styleDefinition, omitDefault) {
         })
     }
 
-    if (omitDefault) {
-        return finalStyleObject;
-    } else if (!finalStyleObject.diagramShape) {
-        return {...DEFAULT_STYLE_OBJECT, ...finalStyleObject}
-    } else {
-        return {...DEFAULT_STYLE_OBJECT, ...DEFAULT_DIAGRAM_STYLE_OBJECT, ...finalStyleObject}
-    }
+    return finalStyleObject;
 }
 
 /**
@@ -225,6 +201,5 @@ function hexToRgb(hex) {
 export default {
     getStyleObject,
     hexToRgb,
-    DEFAULT_STYLE_OBJECT,
     DEFAULT_SIZE
 }
