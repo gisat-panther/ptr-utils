@@ -104,8 +104,7 @@ const getFlattenLayers = (layersTree = []) => {
  */
 const getLayerZindex = (layersTree, layerTemplateKey) => {
     const flattenLayers = getFlattenLayerTree(layersTree);
-    const zIndex = flattenLayers.findIndex((l) => l.key === layerTemplateKey);
-    return zIndex || 0;
+    return flattenLayers.findIndex((l) => l.key === layerTemplateKey);
 };
 
 /**
