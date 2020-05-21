@@ -2,6 +2,9 @@ import {assert} from 'chai';
 import period from '../src/period';
 import moment from 'moment';
 
+const setTZ = require('set-tz');
+setTZ('UTC');
+
 function unmomentPeriod(period) {
 	if (period == null) {
 		return period;
