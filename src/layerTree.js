@@ -100,12 +100,13 @@ const getFlattenLayers = (layersTree = []) => {
  * Get z-index for layer from layerTree
  * @param {*} layersTree 
  * @param {*} layerTemplateKey 
- * @returns {Number}
+ * @returns {Number|null}
  */
 const getLayerZindex = (layersTree, layerTemplateKey) => {
     const flattenLayers = getFlattenLayerTree(layersTree);
     const zIndex = flattenLayers.findIndex((l) => l.key === layerTemplateKey);
-    return zIndex || 0;
+
+    return zIndex === -1 ? null : zIndex;
 };
 
 /**

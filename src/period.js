@@ -24,8 +24,8 @@ const parseOne = string => {
 	if (string.match(/^[0-9]{4}$/)) {
 		// year
 		return {
-			start: moment(string),
-			end: moment(string).endOf('year'),
+			start: moment({year: string}),
+			end: moment({year: string}).endOf('year'),
 			source: string,
 			type: 'year'
 		};

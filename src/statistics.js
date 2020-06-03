@@ -30,26 +30,6 @@ const getClassByValue = (classes, value) => {
 };
 
 /**
- * Create classes with same items count.
- * Get values, order ascent
- * @param {Array} values 
- * @param {number} classesCount 
- */
-const getEqualsCountClasses = (values = [], classesCount = 1) => {
-    values.sort();
-    const count = values.length;
-    const min = values[0];
-    const max = values[values.length + 1];
-    const width = max - min;
-    const classWidth = Math.floor(width/classesCount);
-    const classes = [];
-    for(let i = 0; i < classesCount + 1; i++) {
-        classes[i] = min + (i * classWidth);
-    }
-    return classes;
-};
-
-/**
  * 
  * @param {Array} statistics 
  */
@@ -106,21 +86,18 @@ const getMiddleClassValues = (classes = []) => {
 
 const getClassesIntervals = (classes = []) => {
     const collectedClasses = [...new Set(classes)];
-    if(collectedClasses.length > 1) {
+    if(collectedClasses.length !== 1) {
         const intervals = collectedClasses.reduce((acc, val, idx, src) => {
             if(idx > 0) {
                 acc.push([src[idx - 1], src[idx]]);
-                return acc;
-            } else {
-                return acc;
             }
+
+            return acc;
         }, [])
         return intervals;
-    } else if(collectedClasses.length === 1) {
+    } else {
         //probably only one value in cartogram
         return [[collectedClasses[0], collectedClasses[0]]]
-    } else {
-        return [];
     }
 };
 
@@ -144,7 +121,6 @@ export default {
     getClassByValue,
     getClassCount,
     getClassesIntervals,
-    getEqualsCountClasses,
     getMiddleClassValues,
     getValueClassesByStatistics,
     mergeAttributeStatistics,

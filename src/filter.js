@@ -3,7 +3,7 @@ import _ from 'lodash';
 /**
  *
  * @param data {array}
- * @param valueSourcePaths {array}
+ * @param valueSourcePaths {array|string}
  * @param serieSourcePath {string}
  * @param allValuesNull {boolean} if true, all values has to be null to filter the item out
  * @return {*}
@@ -12,44 +12,31 @@ function filterDataWithNullValue (data, valueSourcePaths, serieSourcePath, allVa
 	if (!serieSourcePath) {
 		return filterData(data, valueSourcePaths, allValuesNull);
 	} else {
-		let withoutNullValues = _.map(data, item => {
-			let data = _.get(item, serieSourcePath);
-			let filteredData = filterData(data, valueSourcePaths);
+		const withoutNullValues = _.map(data, item => {
+			const data = _.get(item, serieSourcePath);
+			const filteredData = filterData(data, valueSourcePaths);
 			return _.set({...item}, serieSourcePath, filteredData);
 		});
 
 		return _.filter(withoutNullValues, (item) => {
-			let data = _.get(item, serieSourcePath);
+			const data = _.get(item, serieSourcePath);
 			return data && data.length !== 0;
 		});
 	}
 }
 
+function isNull(val) {
+	return !val && val !==0;
+}
+
 function filterData (data, valueSourcePaths, allValuesNull) {
 	return _.filter(data, (item) => {
 		if (_.isArray(valueSourcePaths)) {
-			if (allValuesNull) {
-				let unfitFilter = 0;
-				_.each(valueSourcePaths, (path) => {
-					let val = _.get(item, path);
-					if (!val && val !==0) {
-						unfitFilter++;
-					}
-				});
-				return unfitFilter !== valueSourcePaths.length;
-			} else {
-				let fitsFilter = true;
-				_.each(valueSourcePaths, (path) => {
-					let val = _.get(item, path);
-					if (!val && val !==0) {
-						fitsFilter = false
-					}
-				});
-				return fitsFilter;
-			}
+			const nullN = allValuesNull ? _.every : _.some;
+
+			return !nullN(valueSourcePaths, path => isNull(_.get(item, path)));
 		} else {
-			let val = _.get(item, valueSourcePaths);
-			return val || val === 0;
+			return !isNull(_.get(item, valueSourcePaths));
 		}
 	});
 }
