@@ -262,7 +262,7 @@ describe('layerTree', function () {
 				name: 'present layer',
 				layersTree: [],
 				layerTemplateKey: 'l1',
-				expectedResult: -1,
+				expectedResult: null,
 			},
 			{
 				name: 'first layer',
