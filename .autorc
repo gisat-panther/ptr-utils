@@ -1,0 +1,6 @@
+{
+    "name": "ci",
+    "email": "ci@example.com",
+    "baseBranch": "master",
+    "prereleaseBranches": ["dev"]
+}
