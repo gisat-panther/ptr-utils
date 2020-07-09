@@ -5,7 +5,8 @@ on:
         types: [opened, labeled, unlabeled, synchronize]
 
 jobs:
-    test:
+    tag_validation:
+        name: Tag validation
         runs-on: ubuntu-latest
         steps:
             - name: Require Labels
