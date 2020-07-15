@@ -1,7 +1,4 @@
-on:
-    push: ~
-    pull_request:
-        types: [assigned]
+on: [push]
 
 jobs:
     build:
