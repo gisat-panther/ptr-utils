@@ -1,3 +1,15 @@
+# v1.3.4 (Tue Aug 18 2020)
+
+#### 🐾 Patch
+
+- Bump elliptic from 6.5.2 to 6.5.3 [#10](https://github.com/gisat-panther/ptr-utils/pull/10) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 1
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+
+---
+
 # v1.3.3 (Tue Jul 21 2020)
 
 #### 🐾 Patch
