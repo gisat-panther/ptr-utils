@@ -4,15 +4,13 @@ import {cloneDeep} from 'lodash';
 import {
     ensureViewIntegrity,
     mergeViews,
-    getBoxRangeFromWorldWindRange,
-    getBoxRangeFromZoomLevel,
-    getPixelSizeFromZoomLevel,
     getViewFromBoundingBox,
     getViewFromGeometry,
-    getWorldWindRangeFromBoxRange,
     getZoomLevelFromBoxRange,
     getZoomLevelFromPixelSize,
 } from '../../src/map/view';
+
+import constants from "../../src/map/constants/view"; //todo move outside
 
 const validView = {
     heading: 0,
@@ -210,60 +208,6 @@ describe('mergeViews', function () {
     });
 });
 
-describe('getBoxRangeFromWorldWindRange', function () {
-
-	it('returns half range', function () {
-        const range = 10000;
-        const width = 600; //px
-        const height = 300; //px
-        const wwwRange = getBoxRangeFromWorldWindRange(range, width, height);
-
-        assert.equal(wwwRange, 5000);
-    });
-
-	it('returns same range', function () {
-        const range = 10000;
-        const width = 300; //px
-        const height = 600; //px
-        const wwwRange = getBoxRangeFromWorldWindRange(range, width, height);
-
-        assert.equal(wwwRange, 10000);
-    });
-
-});
-
-describe('getBoxRangeFromZoomLevel', function () {
-
-	it('returns box range', function () {
-        const width = 600; //px
-        const height = 300; //px
-        const boxRange = getBoxRangeFromZoomLevel(0, width, height);
-
-        assert.equal(boxRange, 30187175.77750529);
-    });
-
-	it('returns box range', function () {
-        const width = 300; //px
-        const height = 600; //px
-        const boxRange = getBoxRangeFromZoomLevel(0, width, height);
-
-        assert.equal(boxRange, 30187175.77750529);
-    });
-});
-
-describe('getPixelSizeFromZoomLevel', function () {
-
-	it('returns pixel size for zero level in default latitude', function () {
-        const pixelSize = getPixelSizeFromZoomLevel(0);
-        assert.equal(pixelSize, 100623.9225916843);
-    });
-
-	it('returns pixel size for 9-th level in default latitude', function () {
-        const pixelSize = getPixelSizeFromZoomLevel(9);
-        assert.equal(pixelSize, 196.53109881188323);
-    });
-});
-
 describe('getViewFromBoundingBox', function () {
 
 	it('returns bounding box', function () {
@@ -316,29 +260,6 @@ describe('getViewFromGeometry', function () {
 
 });
 
-describe('getWorldWindRangeFromBoxRange', function () {
-
-	it('returns worldwind range from boxRange', function () {
-
-        const boxRange = 10000;
-        const width = 600; //px
-        const height = 300; //px
-        const wwwRange = getWorldWindRangeFromBoxRange(boxRange, width, height);
-
-        assert.equal(wwwRange, 20000);
-    });
-
-	it('returns worldwind range from boxRange', function () {
-
-        const boxRange = 10000;
-        const width = 300; //px
-        const height = 600; //px
-        const wwwRange = getWorldWindRangeFromBoxRange(boxRange, width, height);
-
-        assert.equal(wwwRange, 10000);
-    });
-});
-
 describe('getZoomLevelFromBoxRange', function () {
 
 	it('returns worldwind range from boxRange', function () {
@@ -353,6 +274,7 @@ describe('getZoomLevelFromBoxRange', function () {
 });
 
 describe('getZoomLevelFromPixelSize', function () {
+    const levelsPxSize = constants.pixelSizeInLevels;
 
 	it('Identify level by pixelsize', function () {
         const level = getZoomLevelFromPixelSize(1000000);
@@ -364,4 +286,28 @@ describe('getZoomLevelFromPixelSize', function () {
         assert.equal(level, 16);
     });
 
+    it('return 0 if pixel size is bigger then lowest level', function () {
+        const lowestLevelPxSize = levelsPxSize[0];
+        assert.equal(0, getZoomLevelFromPixelSize(lowestLevelPxSize + 1));
+    });
+
+    it('return 0 if pixel size is between lowest and next level', function () {
+        const lowestLevelPxSize = levelsPxSize[0];
+        assert.equal(0, getZoomLevelFromPixelSize(lowestLevelPxSize - 1));
+    });
+
+    it('return 6 if pixel size is between 7th lowest and next level', function () {
+        const levelPxSize = levelsPxSize[6];
+        assert.equal(6, getZoomLevelFromPixelSize(levelPxSize - 1));
+    });
+
+    it('return 7 if pixel size is the same as 8th lowest level', function () {
+        const levelPxSize = levelsPxSize[7];
+        assert.equal(7, getZoomLevelFromPixelSize(levelPxSize));
+    });
+
+    it('return 24 if pixel size is lower then the highest level', function () {
+        const levelPxSize = levelsPxSize[levelsPxSize.length - 1];
+        assert.equal(levelsPxSize.length - 1, getZoomLevelFromPixelSize(levelPxSize - 0.00001));
+    });
 });

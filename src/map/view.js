@@ -5,47 +5,6 @@ import _ from "lodash";
 import constants from "./constants/view";
 
 /**
- * Convert Web World Wind range to Panther boxRange
- * @param range {WorldWind.Navigator.range}
- * @param width {number} map width
- * @param height {number} map height
- * @return {number|*} Panther view box range
- */
-function getBoxRangeFromWorldWindRange(range, width, height) {
-    if (width && width >= height) {
-        return range * height/width;
-    } else {
-        return range;
-    }
-}
-
-/**
- * Convert Panther boxRange to Web World Wind range
- * @param boxRange {number} Panther view boxRange
- * @param width {number} map width
- * @param height {number} map height
- * @return {number|*} WorldWind navigator range
- */
-function getWorldWindRangeFromBoxRange(boxRange, width, height) {
-    if (width && width >= height) {
-        return boxRange * width/height;
-    } else {
-        return boxRange;
-    }
-}
-
-/**
- * @param level {number} zoom level
- * @param width {number} map width
- * @param height {number} map height
- * @return {number} Panther box range
- */
-function getBoxRangeFromZoomLevel(level, width, height) {
-    // remove 1 from box range to prevent rounding issues
-    return (Math.min(width, height) * getPixelSizeFromZoomLevel(level)) - 1;
-}
-
-/**
  * @param boxRange {number} Panther view boxRange
  * @param width {number} map width
  * @param height {number} map height
@@ -54,14 +13,6 @@ function getBoxRangeFromZoomLevel(level, width, height) {
 function getZoomLevelFromBoxRange(boxRange, width, height) {
     // remove 1 from box range to prevent rounding issues
     return getZoomLevelFromPixelSize((boxRange - 1)/Math.min(width, height));
-}
-
-/**
- * @param level {number} zoom level
- * @return {number} Size of 1 px in meters
- */
-function getPixelSizeFromZoomLevel(level) {
-    return constants.pixelSizeInLevels[level];
 }
 
 /**
@@ -218,25 +169,17 @@ const mergeViews = createCachedSelector(
 export default {
     ensureViewIntegrity,
     mergeViews,
-    getBoxRangeFromWorldWindRange,
-    getBoxRangeFromZoomLevel,
-    getPixelSizeFromZoomLevel,
     getViewFromBoundingBox,
     getViewFromGeometry,
-    getWorldWindRangeFromBoxRange,
     getZoomLevelFromBoxRange,
     getZoomLevelFromPixelSize,
 }
 
 export {
-    ensureViewIntegrity,
+    ensureViewIntegrity, //check use in ptr-state
     mergeViews,
-    getBoxRangeFromWorldWindRange,
-    getBoxRangeFromZoomLevel,
-    getPixelSizeFromZoomLevel,
     getViewFromBoundingBox,
     getViewFromGeometry,
-    getWorldWindRangeFromBoxRange,
     getZoomLevelFromBoxRange,
     getZoomLevelFromPixelSize,
 }
