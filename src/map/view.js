@@ -1,8 +1,7 @@
 import * as turf from '@turf/turf';
 import createCachedSelector from "re-reselect";
 import _ from "lodash";
-
-import constants from "./constants/view";
+import {mapConstants} from '@gisatcz/ptr-core';
 
 /**
  * @param boxRange {number} Panther view boxRange
@@ -21,7 +20,7 @@ function getZoomLevelFromBoxRange(boxRange, width, height) {
  * @return {number} Zoom level
  */
 function getZoomLevelFromPixelSize(pxSize) {
-    const levels = constants.pixelSizeInLevels;
+    const levels = mapConstants.pixelSizeInLevels;
 
     let level = 0;
     while (pxSize <= levels[level + 1] && level < levels.length) {

@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import "isomorphic-fetch";
 
-import constants from './constants/view';
 import view from './view';
 
 /**
@@ -120,7 +119,6 @@ function resetHeading(heading, callback, increment) {
 
 
 export default {
-	constants,
 	view,
 
 	getLocationFromPlaceString,
@@ -129,7 +127,6 @@ export default {
 }
 
 export {
-	constants,
 	view,
 
 	getLocationFromPlaceString,

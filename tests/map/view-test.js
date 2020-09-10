@@ -1,5 +1,7 @@
 import {assert} from 'chai';
 import {cloneDeep} from 'lodash';
+import {mapConstants} from '@gisatcz/ptr-core';
+
 
 import {
     ensureViewIntegrity,
@@ -10,7 +12,6 @@ import {
     getZoomLevelFromPixelSize,
 } from '../../src/map/view';
 
-import constants from "../../src/map/constants/view"; //todo move outside
 
 const validView = {
     heading: 0,
@@ -274,7 +275,7 @@ describe('getZoomLevelFromBoxRange', function () {
 });
 
 describe('getZoomLevelFromPixelSize', function () {
-    const levelsPxSize = constants.pixelSizeInLevels;
+    const levelsPxSize = mapConstants.pixelSizeInLevels;
 
 	it('Identify level by pixelsize', function () {
         const level = getZoomLevelFromPixelSize(1000000);
