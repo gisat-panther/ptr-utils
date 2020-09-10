@@ -1,3 +1,15 @@
+# v1.3.5 (Thu Sep 10 2020)
+
+#### 🐾 Patch
+
+- Import utils functionality from ptr-maps [#11](https://github.com/gisat-panther/ptr-utils/pull/11) ([@vdubr](https://github.com/vdubr))
+
+#### Authors: 1
+
+- Vojtěch Dubrovský ([@vdubr](https://github.com/vdubr))
+
+---
+
 # v1.3.4 (Tue Aug 18 2020)
 
 #### 🐾 Patch
