@@ -11,7 +11,7 @@ import {mapConstants} from '@gisatcz/ptr-core';
  */
 function getZoomLevelFromBoxRange(boxRange, width, height) {
     // remove 1 from box range to prevent rounding issues
-    return getZoomLevelFromPixelSize((boxRange - 1)/Math.min(width, height));
+    return getZoomLevelFromPixelSize((boxRange - 1)/getMapViewportRange(width, height));
 }
 
 /**
@@ -165,9 +165,62 @@ const mergeViews = createCachedSelector(
 	(one, two, three) => `${one}_${two}_${three || ""}`
 );
 
+/**
+ * TODO add optLat as oprional parameter
+ * Determinate nearest higher zoom level.
+ * @param level {number} zoom level
+ * @param width {number} map width
+ * @param height {number} map height
+ * @return {number} Panther box range
+ */
+function getBoxRangeFromZoomLevel(level, width, height) {
+    // remove 1 from box range to prevent rounding issues
+    return (getMapViewportRange(width, height) * getPixelSizeFromZoomLevel(level)) - 1;
+}
+
+/**
+ * TODO add optLat as oprional parameter
+ * Determinate pixel size from given level.
+ * @param level {number} zoom level
+ * @return {number} Size of 1 px in meters
+ */
+function getPixelSizeFromZoomLevel(level) {
+    return mapConstants.pixelSizeInLevels[level];
+}
+
+/**
+ * Returns smaller size from given width and height
+ * @param {number} width 
+ * @param {number} height 
+ */
+function getMapViewportRange(width, height) {
+	if((width && width > -1) && (height && height> -1)) {
+		return Math.min(height, width);
+	} else {
+		return null;
+	}
+}
+
+/**
+ * TODO add optLat as oprional parameter
+ * Determinate nearest zoom level for given boxRange and return its boxRange.
+ * @param {number} width 
+ * @param {number} height 
+ * @param {number} boxRange 
+ */
+function getNearestZoomLevelBoxRange(width, height, boxRange) {
+	const zoom = getZoomLevelFromBoxRange(boxRange, width, height);
+	const newBoxRange = getBoxRangeFromZoomLevel(zoom, width, height);
+	return newBoxRange;
+}
+
 export default {
     ensureViewIntegrity,
-    mergeViews,
+	mergeViews,
+	getBoxRangeFromZoomLevel,
+	getNearestZoomLevelBoxRange,
+	getMapViewportRange,
+	getPixelSizeFromZoomLevel,
     getViewFromBoundingBox,
     getViewFromGeometry,
     getZoomLevelFromBoxRange,
@@ -176,7 +229,11 @@ export default {
 
 export {
     ensureViewIntegrity, //check use in ptr-state
-    mergeViews,
+	mergeViews,
+	getBoxRangeFromZoomLevel,
+	getNearestZoomLevelBoxRange,
+	getMapViewportRange,
+	getPixelSizeFromZoomLevel,
     getViewFromBoundingBox,
     getViewFromGeometry,
     getZoomLevelFromBoxRange,

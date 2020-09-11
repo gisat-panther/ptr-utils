@@ -2,7 +2,6 @@ import {assert} from 'chai';
 import {cloneDeep} from 'lodash';
 import {mapConstants} from '@gisatcz/ptr-core';
 
-
 import {
     ensureViewIntegrity,
     mergeViews,
@@ -10,7 +9,12 @@ import {
     getViewFromGeometry,
     getZoomLevelFromBoxRange,
     getZoomLevelFromPixelSize,
+    getMapViewportRange,
+    getBoxRangeFromZoomLevel,
+    getPixelSizeFromZoomLevel,
+    getNearestZoomLevelBoxRange,
 } from '../../src/map/view';
+import { contrast } from 'chroma-js';
 
 
 const validView = {
@@ -310,5 +314,70 @@ describe('getZoomLevelFromPixelSize', function () {
     it('return 24 if pixel size is lower then the highest level', function () {
         const levelPxSize = levelsPxSize[levelsPxSize.length - 1];
         assert.equal(levelsPxSize.length - 1, getZoomLevelFromPixelSize(levelPxSize - 0.00001));
+    });
+});
+
+describe('getMapViewportRange', function () {
+    it('100 is smaller than 200', function () {
+        assert.equal(getMapViewportRange(100, 200), 100);
+    })
+    it('100 is smaller than 200', function () {
+        assert.equal(getMapViewportRange(200, 100), 100);
+    })
+
+    it('check if params are filled', function () {
+        assert.equal(getMapViewportRange(100, null), null);
+    })
+
+    it('check if params are filled', function () {
+        assert.equal(getMapViewportRange(undefined, 100), null);
+    })
+
+})
+
+describe('getBoxRangeFromZoomLevel', function () {
+
+    it('returns box range', function () {
+        const width = 600; //px
+        const height = 300; //px
+        const boxRange = getBoxRangeFromZoomLevel(0, width, height);
+
+        assert.equal(boxRange, 30187175.77750529);
+    });
+
+    it('returns box range', function () {
+        const width = 300; //px
+        const height = 600; //px
+        const boxRange = getBoxRangeFromZoomLevel(0, width, height);
+
+        assert.equal(boxRange, 30187175.77750529);
+    });
+});
+
+describe('getPixelSizeFromZoomLevel', function () {
+
+    it('returns pixel size for zero level in default latitude', function () {
+        const pixelSize = getPixelSizeFromZoomLevel(0);
+        assert.equal(pixelSize, 100623.9225916843);
+    });
+
+    it('returns pixel size for 9-th level in default latitude', function () {
+        const pixelSize = getPixelSizeFromZoomLevel(9);
+        assert.equal(pixelSize, 196.53109881188323);
+    });
+});
+
+describe('getNearestZoomLevelBoxRange', function () {
+
+    it('returns box range', function () {
+        const width = 600; //px
+        const height = 100; //px
+        const boxRange = 100;
+        const levelBoxRange = getNearestZoomLevelBoxRange(width, height, boxRange);
+
+        const level = getZoomLevelFromBoxRange(boxRange, width, height);
+        
+
+        assert.equal(levelBoxRange, (mapConstants.pixelSizeInLevels[level] * height) - 1);
     });
 });
