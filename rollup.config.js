@@ -32,6 +32,7 @@ export default {
     're-reselect',
     'chroma-js',
     'moment',
+    '@gisatcz/ptr-core',
     ...lodashExternal
   ],
   output: {
@@ -54,5 +55,11 @@ export default {
         include: 'node_modules/**',
     }),
     filesize(),
-  ]
+  ],
+  onwarn: function ( warning, handler ) {
+    if ( /external dependency/.test( warning ) ) {
+      throw new Error(warning);
+    };
+    handler(warning);
+  }
 };

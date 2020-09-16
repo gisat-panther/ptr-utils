@@ -32,6 +32,7 @@ export default {
     'chroma-js',
     'moment',
     'chai',
+    '@gisatcz/ptr-core',
     ...lodashExternal
   ],
   output: {
@@ -50,6 +51,12 @@ export default {
     }),
     commonjs({
         include: 'node_modules/**',
-    }),
-  ]
+    }),  
+  ],
+  onwarn: function ( warning, handler ) {
+    if ( /external dependency/.test( warning ) ) {
+      throw new Error(warning);
+    };
+    handler(warning);
+  }
 };
