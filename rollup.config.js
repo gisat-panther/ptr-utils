@@ -6,6 +6,7 @@ const env = process.env.NODE_ENV;
 const pkg = require("./package.json");
 
 const lodashExternal = [
+  'lodash/cloneDeep',
   'lodash/find',
   'lodash/findIndex',
   'lodash/each',

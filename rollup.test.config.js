@@ -5,6 +5,7 @@ import multi from '@rollup/plugin-multi-entry';
 const env = process.env.NODE_ENV;
 
 const lodashExternal = [
+  'lodash/cloneDeep',
   'lodash/find',
   'lodash/findIndex',
   'lodash/each',
