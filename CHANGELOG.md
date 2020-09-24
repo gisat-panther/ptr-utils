@@ -1,3 +1,15 @@
+# v1.3.7 (Thu Sep 24 2020)
+
+#### 🐾 Patch
+
+- Add check, if rooup build does not contains some unresolved external … [#13](https://github.com/gisat-panther/ptr-utils/pull/13) ([@vdubr](https://github.com/vdubr))
+
+#### Authors: 1
+
+- Vojtěch Dubrovský ([@vdubr](https://github.com/vdubr))
+
+---
+
 # v1.3.6 (Fri Sep 11 2020)
 
 #### 🐾 Patch
