@@ -5,6 +5,7 @@ import multi from '@rollup/plugin-multi-entry';
 const env = process.env.NODE_ENV;
 
 const lodashExternal = [
+  'lodash/cloneDeep',
   'lodash/find',
   'lodash/findIndex',
   'lodash/each',
@@ -32,6 +33,7 @@ export default {
     'chroma-js',
     'moment',
     'chai',
+    '@gisatcz/ptr-core',
     ...lodashExternal
   ],
   output: {
@@ -50,6 +52,12 @@ export default {
     }),
     commonjs({
         include: 'node_modules/**',
-    }),
-  ]
+    }),  
+  ],
+  onwarn: function ( warning, handler ) {
+    if ( /external dependency/.test( warning ) ) {
+      throw new Error(warning);
+    };
+    handler(warning);
+  }
 };
