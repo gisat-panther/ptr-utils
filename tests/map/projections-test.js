@@ -122,8 +122,8 @@ describe('coordinates3857To4326', function () {
 	it('returns a point from northern hemisphere', function () {
 		const x = -12345678.9;
 		const y = 12345678.9;
-		const expectedLat = -73.5739692;
-		const expectedLon = 110.9031205;
+		const expectedLat = 73.5739692;
+		const expectedLon = -110.9031205;
 
 		const output = projections.coordinates3857To4326({x, y});
 
@@ -156,9 +156,9 @@ describe('coordinates3857To4326', function () {
 	});
 
 	it('returns the maximal latitude if given is outside bounds', function () {
-		const x = 112345678.9;
-		const y = -12345678.9;
-		const expectedLat = EPSG_3857_WGS84_BBOX.maxY;
+		const x = 12345678.9;
+		const y = 112345678.9;
+		const expectedLat = EPSG_3857_WGS84_BBOX.maxLat;
 		const expectedLon = 110.9031205;
 
 		const output = projections.coordinates3857To4326({x, y});
@@ -168,10 +168,10 @@ describe('coordinates3857To4326', function () {
 	});
 
 	it('returns the minimal latitude if given is outside bounds', function () {
-		const x = -112345678.9;
-		const y = -12345678.9;
-		const expectedLat = EPSG_3857_WGS84_BBOX.minY;
-		const expectedLon = 110.9031205;
+		const x = -12345678.9;
+		const y = -112345678.9;
+		const expectedLat = EPSG_3857_WGS84_BBOX.minLat;
+		const expectedLon = -110.9031205;
 
 		const output = projections.coordinates3857To4326({x, y});
 
