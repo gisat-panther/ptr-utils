@@ -14,7 +14,7 @@ describe('legend', function () {
 				name: 'integers non first',
 				interval: [0, 9],
 				first: false,
-				expectedResult: '0.1 - 9',
+				expectedResult:`${(0.1).toLocaleString()} - 9`,
 			},
 		];
 
