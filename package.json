@@ -83,6 +83,7 @@
 		"build:cjs": "cross-env NODE_ENV=cjs rollup -c",
 		"build:lib:es": "cross-env BABEL_ENV=es babel src -d lib",
 		"test": "cross-env NODE_ENV=cjs rollup -c ./rollup.test.config.js && cross-env TZ=utc mocha -- --require source-map-support/register",
-		"test:watch": "npm-watch test"
+		"test:watch": "npm-watch test",
+		"format": "prettier --write ."
 	}
 }
