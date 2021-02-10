@@ -7,8 +7,8 @@ import _ from 'lodash';
  * @returns {Array}
  */
 const filterScopesByUrl = (scopes, url) => {
-	if (scopes){
-		return _.filter(scopes, (scope) => {
+	if (scopes) {
+		return _.filter(scopes, scope => {
 			return scope.urls && scope.urls.includes(url);
 		});
 	} else {
@@ -17,8 +17,5 @@ const filterScopesByUrl = (scopes, url) => {
 };
 
 export default {
-	filterScopesByUrl
-}
-
-
-
+	filterScopesByUrl,
+};

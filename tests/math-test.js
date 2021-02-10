@@ -21,12 +21,9 @@ describe('math', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
-				assert.strictEqual(
-					math.countDecimals(test.value),
-					test.expectedResult
-				);
+				assert.strictEqual(math.countDecimals(test.value), test.expectedResult);
 			});
 		});
 	});
@@ -65,7 +62,7 @@ describe('math', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.strictEqual(
 					math.round(test.number, test.decimals),
@@ -109,7 +106,7 @@ describe('math', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.strictEqual(
 					math.roundHigher(test.number, test.decimals),

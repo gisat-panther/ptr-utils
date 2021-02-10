@@ -39,7 +39,7 @@ class CyclicPickController {
 				return;
 			case 'touchend':
 				this.onTouchEnd();
-				return;	
+				return;
 			case 'mouseup':
 				this.onMouseUp();
 				return;
@@ -50,12 +50,18 @@ class CyclicPickController {
 	}
 
 	onMouseMove(wwd, cb, event, showPopup) {
-		if(!this.mouseDown) {
-			const x = event.touches && event.touches[0] && event.touches[0].clientX || event.clientX,
-			y = event.touches && event.touches[0] && event.touches[0].clientY || event.clientY;
+		if (!this.mouseDown) {
+			const x =
+					(event.touches && event.touches[0] && event.touches[0].clientX) ||
+					event.clientX,
+				y =
+					(event.touches && event.touches[0] && event.touches[0].clientY) ||
+					event.clientY;
 
 			const pickList = wwd.pick(wwd.canvasCoordinates(x, y));
-			const highlightedRenderables = this.setNextHighlightStage(pickList.objects);
+			const highlightedRenderables = this.setNextHighlightStage(
+				pickList.objects
+			);
 
 			if (cb) {
 				cb(highlightedRenderables, event, showPopup);
@@ -99,9 +105,11 @@ class CyclicPickController {
 	 * @returns {Renderable[]} An array with the highlighted renderables.
 	 */
 	setNextHighlightStage(renderables) {
-		renderables = renderables.filter(r => {
-			return !r.isTerrain;
-		}).reverse();
+		renderables = renderables
+			.filter(r => {
+				return !r.isTerrain;
+			})
+			.reverse();
 
 		let numHighlighted = 0,
 			currentHighlight;

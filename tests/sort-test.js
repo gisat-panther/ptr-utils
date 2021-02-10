@@ -44,7 +44,7 @@ describe('sort', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
 					sort.sortByOrder(test.data, test.order),

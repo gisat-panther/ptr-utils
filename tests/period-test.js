@@ -126,7 +126,7 @@ describe('period', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
 					unmomentPeriod(period.parse(test.string)),
@@ -229,7 +229,7 @@ describe('period', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.strictEqual(
 					period.toString(momentPeriod(test.period)),

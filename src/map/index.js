@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import "isomorphic-fetch";
+import 'isomorphic-fetch';
 
 import view from './view';
 
@@ -9,23 +9,31 @@ import view from './view';
  */
 function getLocationFromPlaceString(placeString) {
 	let boxRange = 100000;
-	let lat, lon = null;
+	let lat,
+		lon = null;
 
 	if (placeString.length) {
 		let firstChar = Number(placeString[0]);
 		if (isNaN(firstChar)) {
-			let url = "https://open.mapquestapi.com/nominatim/v1/search.php?key=2qc94oOJwV6p7KaClJVSoLyevmPsLqlS&format=json&q="+placeString+"&limit=1";
+			let url =
+				'https://open.mapquestapi.com/nominatim/v1/search.php?key=2qc94oOJwV6p7KaClJVSoLyevmPsLqlS&format=json&q=' +
+				placeString +
+				'&limit=1';
 
 			return fetch(url, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
-					'Accept': 'application/json'
-				}
+					Accept: 'application/json',
+				},
 			}).then(
 				response => {
 					let contentType = response.headers.get('Content-type');
-					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+					if (
+						response.ok &&
+						contentType &&
+						contentType.indexOf('application/json') !== -1
+					) {
 						return response.json().then(body => {
 							if (body.length) {
 								let data = body[0];
@@ -37,19 +45,24 @@ function getLocationFromPlaceString(placeString) {
 										minLat: bbox[0],
 										maxLat: bbox[1],
 										minLon: bbox[2],
-										maxLon: bbox[3]
+										maxLon: bbox[3],
 									});
 								}
 								if ((lat || lat === 0) && (lon || lon === 0)) {
 									return {boxRange, center: {lat, lon}};
 								}
-
 							} else {
-								console.warn("utils/map#getLocationFromPlaceString: No location found for input: ", placeString);
+								console.warn(
+									'utils/map#getLocationFromPlaceString: No location found for input: ',
+									placeString
+								);
 							}
 						});
 					} else {
-						console.warn("utils/map#getLocationFromPlaceString: No location found for input: ", placeString);
+						console.warn(
+							'utils/map#getLocationFromPlaceString: No location found for input: ',
+							placeString
+						);
 					}
 				},
 				error => {
@@ -66,15 +79,16 @@ function getLocationFromPlaceString(placeString) {
 			if ((lat || lat === 0) && (lon || lon === 0)) {
 				return Promise.resolve({boxRange, center: {lat, lon}});
 			} else {
-				console.warn("utils/map#getLocationFromPlaceString: No location found for input: ", placeString);
+				console.warn(
+					'utils/map#getLocationFromPlaceString: No location found for input: ',
+					placeString
+				);
 			}
 		}
 	} else {
-		console.warn("utils/map#getLocationFromPlaceString: Empty input string!");
+		console.warn('utils/map#getLocationFromPlaceString: Empty input string!');
 	}
 }
-
-
 
 function mergeLayers(one, two) {
 	// TODO remove duplicate keys
@@ -100,7 +114,7 @@ function resetHeading(heading, callback, increment) {
 		}
 
 		//set shortest direction based on angle
-		if (heading > 0 && heading < 180 || heading < 0 && heading < -180) {
+		if ((heading > 0 && heading < 180) || (heading < 0 && heading < -180)) {
 			increment = -increment;
 		}
 	}
@@ -114,9 +128,8 @@ function resetHeading(heading, callback, increment) {
 			heading = 0;
 			callback(heading);
 		}
-	}, 20)
+	}, 20);
 }
-
 
 export default {
 	view,
@@ -124,14 +137,6 @@ export default {
 	getLocationFromPlaceString,
 	mergeLayers,
 	resetHeading,
-}
+};
 
-export {
-	view,
-
-	getLocationFromPlaceString,
-	mergeLayers,
-	resetHeading,
-}
-
-
+export {view, getLocationFromPlaceString, mergeLayers, resetHeading};

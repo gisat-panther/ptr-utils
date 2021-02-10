@@ -12,12 +12,11 @@ const parse = string => {
 		return {
 			start: parseOne(dates[0]).start,
 			end: parseOne(dates[1]).end,
-			type: 'interval'
+			type: 'interval',
 		};
 	}
 	// anything else
 	return parseOne(string);
-
 };
 
 const parseOne = string => {
@@ -27,7 +26,7 @@ const parseOne = string => {
 			start: moment({year: string}),
 			end: moment({year: string}).endOf('year'),
 			source: string,
-			type: 'year'
+			type: 'year',
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}$/)) {
@@ -36,7 +35,7 @@ const parseOne = string => {
 			start: moment(string),
 			end: moment(string).endOf('month'),
 			source: string,
-			type: 'month'
+			type: 'month',
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)) {
@@ -45,7 +44,7 @@ const parseOne = string => {
 			start: moment(string),
 			end: moment(string).endOf('day'),
 			source: string,
-			type: 'day'
+			type: 'day',
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}$/)) {
@@ -54,7 +53,7 @@ const parseOne = string => {
 			start: moment(string),
 			end: moment(string).endOf('hour'),
 			source: string,
-			type: 'hour'
+			type: 'hour',
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}$/)) {
@@ -63,19 +62,19 @@ const parseOne = string => {
 			start: moment(string),
 			end: moment(string).endOf('minute'),
 			source: string,
-			type: 'minute'
+			type: 'minute',
 		};
 	}
 	if (
-		string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$/)
-		|| string.match(/^[0-9]{4}[0-9]{2}[0-9]{2}T[0-9]{2}[0-9]{2}[0-9]{2}$/)
+		string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$/) ||
+		string.match(/^[0-9]{4}[0-9]{2}[0-9]{2}T[0-9]{2}[0-9]{2}[0-9]{2}$/)
 	) {
 		// second
 		return {
 			start: moment(string),
 			end: moment(string).endOf('second'),
 			source: string,
-			type: 'second'
+			type: 'second',
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}/)) {
@@ -84,16 +83,21 @@ const parseOne = string => {
 			start: moment(string),
 			end: moment(string).endOf('second'),
 			source: string,
-			type: 'full'
+			type: 'full',
 		};
 	}
 };
 
 const toString = period => {
-	if (!(_.isObject(period) && period.start && period.end && period.type)) throw new Error('Invalid period supplied to period.toString');
+	if (!(_.isObject(period) && period.start && period.end && period.type))
+		throw new Error('Invalid period supplied to period.toString');
 	switch (period.type) {
 		case 'interval':
-			return period.start.format('YYYY-MM-DD h:mm:ss') + ' - ' + period.end.format('YYYY-MM-DD h:mm:ss');
+			return (
+				period.start.format('YYYY-MM-DD h:mm:ss') +
+				' - ' +
+				period.end.format('YYYY-MM-DD h:mm:ss')
+			);
 		case 'second':
 		case 'full':
 			return period.start.format('YYYY-MM-DD h:mm:ss');
@@ -108,5 +112,5 @@ const toString = period => {
 
 export default {
 	parse,
-	toString
+	toString,
 };
