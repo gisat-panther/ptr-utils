@@ -1,3 +1,15 @@
+# v1.3.9 (Thu Feb 11 2021)
+
+#### 🐾 Patch
+
+- Projections [#16](https://github.com/gisat-panther/ptr-utils/pull/16) ([@vlach1989](https://github.com/vlach1989))
+
+#### Authors: 1
+
+- Pavel Vlach ([@vlach1989](https://github.com/vlach1989))
+
+---
+
 # v1.3.8 (Thu Feb 11 2021)
 
 #### 🐾 Patch
