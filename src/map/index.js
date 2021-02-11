@@ -9,7 +9,7 @@ import view from './view';
  */
 function getLocationFromPlaceString(placeString) {
 	let boxRange = 100000;
-	let lat,
+	let lat = null,
 		lon = null;
 
 	if (placeString.length) {
