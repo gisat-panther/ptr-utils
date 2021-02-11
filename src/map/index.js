@@ -2,6 +2,7 @@ import _ from 'lodash';
 import 'isomorphic-fetch';
 
 import view from './view';
+import projections from './projections';
 
 /**
  * @param placeString {string} Text (e.g. Praha, France, ...) or coordinates (e.g. 10,50 or 10;50 or 10 50 as latitude,longitude) as input
@@ -133,10 +134,17 @@ function resetHeading(heading, callback, increment) {
 
 export default {
 	view,
+	projections,
 
 	getLocationFromPlaceString,
 	mergeLayers,
 	resetHeading,
 };
 
-export {view, getLocationFromPlaceString, mergeLayers, resetHeading};
+export {
+	projections,
+	view,
+	getLocationFromPlaceString,
+	mergeLayers,
+	resetHeading,
+};

@@ -19,8 +19,18 @@ const roundHigher = (number, decimals) => {
 	return round(base + addition, decimals);
 };
 
+const degToRadians = deg => {
+	return (Math.PI * deg) / 180;
+};
+
+const radiansToDeg = rad => {
+	return (180 * rad) / Math.PI;
+};
+
 export default {
 	countDecimals,
+	degToRadians,
+	radiansToDeg,
 	round,
 	roundHigher,
 };
