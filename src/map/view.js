@@ -2,6 +2,8 @@ import * as turf from '@turf/turf';
 import createCachedSelector from 're-reselect';
 import _ from 'lodash';
 import {mapConstants} from '@gisatcz/ptr-core';
+import math from '../math';
+import projections from './projections';
 
 /**
  * @param boxRange {number} Panther view boxRange
@@ -217,9 +219,56 @@ function getNearestZoomLevelBoxRange(width, height, boxRange) {
 	return newBoxRange;
 }
 
+/**
+ * Calculate bounding box from view for map in EPSG 3857 (Web Mercator) projection
+ * @param center {{lat: Number, lon: Number}} Panther view center
+ * @param boxRange {Number} Panther view box range
+ * @param viewportRatio {Number} Width/height ratio of map window
+ * @param optLat {Number} The latitude used to minimise the distortion between 2D and 3D projection
+ * @return {{minLon: number, maxLat: number, minLat: number, maxLon: number}} Bounding box
+ */
+function getBoundingBoxFromViewForEpsg3857(
+	center,
+	boxRange,
+	viewportRatio,
+	optLat
+) {
+	// convert back the boxRange which was adjusted in map in EPSG 3857 projection
+	// if optLat exists && cos(optLat) !== 0
+	if (optLat && optLat % 90 !== 0) {
+		boxRange /= Math.cos(math.degToRadians(optLat));
+	}
+
+	// calculate visible distance in vertical and horizontal direction
+	const distanceY = viewportRatio > 1 ? boxRange : boxRange / viewportRatio;
+	const distanceX = viewportRatio <= 1 ? boxRange : boxRange * viewportRatio;
+
+	// get center coordinates in EPSG 3857
+	const center3857 = projections.coordinates4326To3857(center);
+	const {x, y} = center3857;
+
+	// coordinates of viewport boundaries in EPSG 3857
+	const minX = x - distanceX / 2;
+	const maxX = x + distanceX / 2;
+	const minY = y - distanceY / 2;
+	const maxY = y + distanceY / 2;
+
+	// corners in EPSG 4326
+	const bottomLeft4326 = projections.coordinates3857To4326({x: minX, y: minY});
+	const topRight4326 = projections.coordinates3857To4326({x: maxX, y: maxY});
+
+	return {
+		minLat: bottomLeft4326.lat,
+		minLon: bottomLeft4326.lon,
+		maxLat: topRight4326.lat,
+		maxLon: topRight4326.lon,
+	};
+}
+
 export default {
 	ensureViewIntegrity,
 	mergeViews,
+	getBoundingBoxFromViewForEpsg3857,
 	getBoxRangeFromZoomLevel,
 	getNearestZoomLevelBoxRange,
 	getMapViewportRange,
@@ -233,6 +282,7 @@ export default {
 export {
 	ensureViewIntegrity, //check use in ptr-state
 	mergeViews,
+	getBoundingBoxFromViewForEpsg3857,
 	getBoxRangeFromZoomLevel,
 	getNearestZoomLevelBoxRange,
 	getMapViewportRange,
