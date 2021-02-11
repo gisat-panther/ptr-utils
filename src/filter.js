@@ -8,7 +8,12 @@ import _ from 'lodash';
  * @param allValuesNull {boolean} if true, all values has to be null to filter the item out
  * @return {*}
  */
-function filterDataWithNullValue (data, valueSourcePaths, serieSourcePath, allValuesNull) {
+function filterDataWithNullValue(
+	data,
+	valueSourcePaths,
+	serieSourcePath,
+	allValuesNull
+) {
 	if (!serieSourcePath) {
 		return filterData(data, valueSourcePaths, allValuesNull);
 	} else {
@@ -18,7 +23,7 @@ function filterDataWithNullValue (data, valueSourcePaths, serieSourcePath, allVa
 			return _.set({...item}, serieSourcePath, filteredData);
 		});
 
-		return _.filter(withoutNullValues, (item) => {
+		return _.filter(withoutNullValues, item => {
 			const data = _.get(item, serieSourcePath);
 			return data && data.length !== 0;
 		});
@@ -26,11 +31,11 @@ function filterDataWithNullValue (data, valueSourcePaths, serieSourcePath, allVa
 }
 
 function isNull(val) {
-	return !val && val !==0;
+	return !val && val !== 0;
 }
 
-function filterData (data, valueSourcePaths, allValuesNull) {
-	return _.filter(data, (item) => {
+function filterData(data, valueSourcePaths, allValuesNull) {
+	return _.filter(data, item => {
 		if (_.isArray(valueSourcePaths)) {
 			const nullN = allValuesNull ? _.every : _.some;
 
@@ -42,5 +47,5 @@ function filterData (data, valueSourcePaths, allValuesNull) {
 }
 
 export default {
-	filterDataWithNullValue
+	filterDataWithNullValue,
 };

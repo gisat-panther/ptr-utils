@@ -143,8 +143,7 @@ describe('filter-test', function () {
 				],
 			},
 			{
-				name:
-					'test object serie with string path and all values non null',
+				name: 'test object serie with string path and all values non null',
 				data: [
 					{
 						path: [
@@ -235,7 +234,7 @@ describe('filter-test', function () {
 				],
 			},
 		];
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
 					filter.filterDataWithNullValue(

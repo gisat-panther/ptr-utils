@@ -24,7 +24,7 @@ describe('statistics', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.strictEqual(
 					statistics.getClassByValue(test.classes, test.value),
@@ -58,7 +58,7 @@ describe('statistics', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.strictEqual(
 					statistics.getClassCount(test.classes),
@@ -104,7 +104,7 @@ describe('statistics', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
 					statistics.getClassesIntervals(test.classes),
@@ -133,7 +133,7 @@ describe('statistics', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
 					statistics.getMiddleClassValues(test.classes),
@@ -165,7 +165,7 @@ describe('statistics', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
 					statistics.getValueClassesByStatistics(
@@ -187,9 +187,7 @@ describe('statistics', function () {
 			},
 			{
 				name: 'single without percentile',
-				statistics: [
-					{attributeStatistic: {min: 5, max: 10, percentile: []}},
-				],
+				statistics: [{attributeStatistic: {min: 5, max: 10, percentile: []}}],
 				expectedResult: {min: 5, max: 10, percentile: [10]},
 			},
 			{
@@ -227,7 +225,7 @@ describe('statistics', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
 					statistics.mergeAttributeStatistics(test.statistics),

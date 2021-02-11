@@ -1,6 +1,6 @@
 import * as turf from '@turf/turf';
-import createCachedSelector from "re-reselect";
-import _ from "lodash";
+import createCachedSelector from 're-reselect';
+import _ from 'lodash';
 import {mapConstants} from '@gisatcz/ptr-core';
 
 /**
@@ -10,8 +10,10 @@ import {mapConstants} from '@gisatcz/ptr-core';
  * @return {number} Zoom level
  */
 function getZoomLevelFromBoxRange(boxRange, width, height) {
-    // remove 1 from box range to prevent rounding issues
-    return getZoomLevelFromPixelSize((boxRange - 1)/getMapViewportRange(width, height));
+	// remove 1 from box range to prevent rounding issues
+	return getZoomLevelFromPixelSize(
+		(boxRange - 1) / getMapViewportRange(width, height)
+	);
 }
 
 /**
@@ -20,13 +22,13 @@ function getZoomLevelFromBoxRange(boxRange, width, height) {
  * @return {number} Zoom level
  */
 function getZoomLevelFromPixelSize(pxSize) {
-    const levels = mapConstants.pixelSizeInLevels;
+	const levels = mapConstants.pixelSizeInLevels;
 
-    let level = 0;
-    while (pxSize <= levels[level + 1] && level < levels.length) {
-        level++;
-    }
-    return level;
+	let level = 0;
+	while (pxSize <= levels[level + 1] && level < levels.length) {
+		level++;
+	}
+	return level;
 }
 
 /**
@@ -44,10 +46,10 @@ function getBoxRangeFromBoundingBox(bbox, latitude) {
 	let lonDiff = Math.abs(bbox.maxLon - bbox.minLon);
 
 	let diff = Math.max(latDiff, lonDiff);
-	let boxRange = RANGE_COEFF*diff;
+	let boxRange = RANGE_COEFF * diff;
 	if (latitude) {
-		boxRange /= Math.cos(latitude * Math.PI/180)
-    }
+		boxRange /= Math.cos((latitude * Math.PI) / 180);
+	}
 
 	return boxRange > MIN_BOX_RANGE ? boxRange : MIN_BOX_RANGE;
 }
@@ -59,21 +61,24 @@ function getViewFromBoundingBox(bbox, reflectLatitude) {
 			minLat: bbox[1],
 			minLon: bbox[0],
 			maxLat: bbox[3],
-			maxLon: bbox[2]
-		}
+			maxLon: bbox[2],
+		};
 	}
 
 	const center = {
-		lat: (bbox.maxLat + bbox.minLat)/2,
-		lon: (bbox.maxLon + bbox.minLon)/2
+		lat: (bbox.maxLat + bbox.minLat) / 2,
+		lon: (bbox.maxLon + bbox.minLon) / 2,
 	};
 
-	const boxRange = getBoxRangeFromBoundingBox(bbox, reflectLatitude ? center.lat : null);
+	const boxRange = getBoxRangeFromBoundingBox(
+		bbox,
+		reflectLatitude ? center.lat : null
+	);
 
 	return {
 		center,
-		boxRange
-	}
+		boxRange,
+	};
 }
 
 /**
@@ -84,24 +89,26 @@ function getViewFromBoundingBox(bbox, reflectLatitude) {
 function getViewFromGeometry(geometry, reflectLatitude) {
 	let center = turf.center(geometry);
 	let bbox = turf.bbox(geometry);
-	let boxRange = getBoxRangeFromBoundingBox({
-		minLat: bbox[1],
-		minLon: bbox[0],
-		maxLat: bbox[3],
-		maxLon: bbox[2]
-	}, reflectLatitude ? center.geometry.coordinates[1] : null);
+	let boxRange = getBoxRangeFromBoundingBox(
+		{
+			minLat: bbox[1],
+			minLon: bbox[0],
+			maxLat: bbox[3],
+			maxLon: bbox[2],
+		},
+		reflectLatitude ? center.geometry.coordinates[1] : null
+	);
 
 	return {
 		center: {
 			lat: center.geometry.coordinates[1],
-			lon: center.geometry.coordinates[0]
+			lon: center.geometry.coordinates[0],
 		},
-		boxRange
-	}
+		boxRange,
+	};
 }
 
-
-const ensureViewIntegrity = (view) => {
+const ensureViewIntegrity = view => {
 	if (view) {
 		if (view.heading && view.heading > 360) {
 			view.heading = view.heading % 360;
@@ -152,18 +159,12 @@ const ensureViewIntegrity = (view) => {
 };
 
 const mergeViews = createCachedSelector(
-	[
-		(one) => one,
-		(one, two) => two,
-		(one, two, three) => three
-	],
+	[one => one, (one, two) => two, (one, two, three) => three],
 	(one, two, three) => {
 		three = three || {};
 		return {...one, ...two, ...three};
 	}
-)(
-	(one, two, three) => `${one}_${two}_${three || ""}`
-);
+)((one, two, three) => `${one}_${two}_${three || ''}`);
 
 /**
  * TODO add optLat as oprional parameter
@@ -174,8 +175,10 @@ const mergeViews = createCachedSelector(
  * @return {number} Panther box range
  */
 function getBoxRangeFromZoomLevel(level, width, height) {
-    // remove 1 from box range to prevent rounding issues
-    return (getMapViewportRange(width, height) * getPixelSizeFromZoomLevel(level)) - 1;
+	// remove 1 from box range to prevent rounding issues
+	return (
+		getMapViewportRange(width, height) * getPixelSizeFromZoomLevel(level) - 1
+	);
 }
 
 /**
@@ -185,16 +188,16 @@ function getBoxRangeFromZoomLevel(level, width, height) {
  * @return {number} Size of 1 px in meters
  */
 function getPixelSizeFromZoomLevel(level) {
-    return mapConstants.pixelSizeInLevels[level];
+	return mapConstants.pixelSizeInLevels[level];
 }
 
 /**
  * Returns smaller size from given width and height
- * @param {number} width 
- * @param {number} height 
+ * @param {number} width
+ * @param {number} height
  */
 function getMapViewportRange(width, height) {
-	if((width && width > -1) && (height && height> -1)) {
+	if (width && width > -1 && height && height > -1) {
 		return Math.min(height, width);
 	} else {
 		return null;
@@ -204,9 +207,9 @@ function getMapViewportRange(width, height) {
 /**
  * TODO add optLat as oprional parameter
  * Determinate nearest zoom level for given boxRange and return its boxRange.
- * @param {number} width 
- * @param {number} height 
- * @param {number} boxRange 
+ * @param {number} width
+ * @param {number} height
+ * @param {number} boxRange
  */
 function getNearestZoomLevelBoxRange(width, height, boxRange) {
 	const zoom = getZoomLevelFromBoxRange(boxRange, width, height);
@@ -215,27 +218,27 @@ function getNearestZoomLevelBoxRange(width, height, boxRange) {
 }
 
 export default {
-    ensureViewIntegrity,
+	ensureViewIntegrity,
 	mergeViews,
 	getBoxRangeFromZoomLevel,
 	getNearestZoomLevelBoxRange,
 	getMapViewportRange,
 	getPixelSizeFromZoomLevel,
-    getViewFromBoundingBox,
-    getViewFromGeometry,
-    getZoomLevelFromBoxRange,
-    getZoomLevelFromPixelSize,
-}
+	getViewFromBoundingBox,
+	getViewFromGeometry,
+	getZoomLevelFromBoxRange,
+	getZoomLevelFromPixelSize,
+};
 
 export {
-    ensureViewIntegrity, //check use in ptr-state
+	ensureViewIntegrity, //check use in ptr-state
 	mergeViews,
 	getBoxRangeFromZoomLevel,
 	getNearestZoomLevelBoxRange,
 	getMapViewportRange,
 	getPixelSizeFromZoomLevel,
-    getViewFromBoundingBox,
-    getViewFromGeometry,
-    getZoomLevelFromBoxRange,
-    getZoomLevelFromPixelSize,
-}
+	getViewFromBoundingBox,
+	getViewFromGeometry,
+	getZoomLevelFromBoxRange,
+	getZoomLevelFromPixelSize,
+};

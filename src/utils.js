@@ -1,9 +1,7 @@
 import _ from 'lodash';
-import period from "./period";
-
+import period from './period';
 
 export default {
-
 	period,
 
 	/**
@@ -12,8 +10,11 @@ export default {
 	 */
 	uuid() {
 		return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-			(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-		)
+			(
+				c ^
+				(crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+			).toString(16)
+		);
 	},
 
 	/**
@@ -21,11 +22,13 @@ export default {
 	 * @param length
 	 * @returns {string}
 	 */
-	randomString: length => ((Math.random() * Math.pow(36, length) >> 0).toString(36)),
+	randomString: length =>
+		((Math.random() * Math.pow(36, length)) >> 0).toString(36),
 
-	getRemSize: () => parseFloat(getComputedStyle(document.documentElement).fontSize),
+	getRemSize: () =>
+		parseFloat(getComputedStyle(document.documentElement).fontSize),
 
-	scrollTo(elementId, containerId, duration){
+	scrollTo(elementId, containerId, duration) {
 		let animationDuration = duration ? duration : 200;
 		let container = document.getElementById(containerId);
 		let element = document.getElementById(elementId);
@@ -43,9 +46,9 @@ export default {
 	 * @param json {JSON | string | null}
 	 * @return {string}
 	 */
-	getStringFromJson (json) {
-		if (json && typeof json === "object") {
-			return JSON.stringify(json, null, 2)  ;
+	getStringFromJson(json) {
+		if (json && typeof json === 'object') {
+			return JSON.stringify(json, null, 2);
 		} else {
 			return json;
 		}
@@ -69,15 +72,15 @@ export default {
 		}
 	},
 
-
 	stringToNumHash(string) {
 		string = '' + string;
-		if (typeof string !== 'string') throw new Error('stringToNumHash: argument must be a string');
+		if (typeof string !== 'string')
+			throw new Error('stringToNumHash: argument must be a string');
 		let hash = 1;
 		for (let i = 0; i < string.length; i++) {
-			hash = Math.imul(hash + string.charCodeAt(i) | 0, 265443576107);
+			hash = Math.imul((hash + string.charCodeAt(i)) | 0, 265443576107);
 		}
-		return (hash ^ hash >>> 17) >>> 0;
+		return (hash ^ (hash >>> 17)) >>> 0;
 	},
 
 	/**
@@ -91,9 +94,9 @@ export default {
 		let hash = this.stringToNumHash(string);
 		let colours = [];
 		let defaults = {
-			hue: [0,360],
-			saturation: [35,65],
-			lightness: [40,60]
+			hue: [0, 360],
+			saturation: [35, 65],
+			lightness: [40, 60],
 		};
 		options = {...defaults, ...options};
 		let h, s, l;
@@ -101,14 +104,14 @@ export default {
 		let saturationRange = options.saturation[1] - options.saturation[0];
 		let lightnessRange = options.lightness[1] - options.lightness[0];
 		for (let i = 0; i < (count || 1); i++) {
-			h = hash % hueRange + options.hue[0];
-			hash = (hash ^ hash >>> 17) >>> 0;
-			s = hash % saturationRange + options.saturation[0];
-			hash = (hash ^ hash >>> 17) >>> 0;
-			l = hash % lightnessRange + options.lightness[0];
-			hash = (hash ^ hash >>> 17) >>> 0;
+			h = (hash % hueRange) + options.hue[0];
+			hash = (hash ^ (hash >>> 17)) >>> 0;
+			s = (hash % saturationRange) + options.saturation[0];
+			hash = (hash ^ (hash >>> 17)) >>> 0;
+			l = (hash % lightnessRange) + options.lightness[0];
+			hash = (hash ^ (hash >>> 17)) >>> 0;
 			colours.push('hsl(' + h + ',' + s + '%,' + l + '%)');
 		}
 		return colours;
-	}
-}
+	},
+};

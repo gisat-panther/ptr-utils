@@ -14,11 +14,11 @@ describe('legend', function () {
 				name: 'integers non first',
 				interval: [0, 9],
 				first: false,
-				expectedResult: '0.1 - 9',
+				expectedResult: `${(0.1).toLocaleString()} - 9`,
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.strictEqual(
 					legend.getIntervalTitle(test.interval, test.first),

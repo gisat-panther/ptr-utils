@@ -1,7 +1,18 @@
-const removeItemByIndex = (array, index) => [...array.slice(0, index), ...array.slice(index + 1)];
-const addItemToIndex = (array, index, item) => [...array.slice(0, index), item, ...array.slice(index)];
+const removeItemByIndex = (array, index) => [
+	...array.slice(0, index),
+	...array.slice(index + 1),
+];
+const addItemToIndex = (array, index, item) => [
+	...array.slice(0, index),
+	item,
+	...array.slice(index),
+];
 const addItem = (array, item) => [...array, item];
-const replaceItemOnIndex = (array, index, item) => [...array.slice(0, index), item, ...array.slice(index + 1)];
+const replaceItemOnIndex = (array, index, item) => [
+	...array.slice(0, index),
+	item,
+	...array.slice(index + 1),
+];
 const removeItemByKey = (object, key) => {
 	const {[key]: value, ...withoutKey} = object;
 	return withoutKey;
@@ -12,5 +23,5 @@ export default {
 	addItemToIndex,
 	removeItemByIndex,
 	removeItemByKey,
-	replaceItemOnIndex
-}
+	replaceItemOnIndex,
+};

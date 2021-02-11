@@ -48,13 +48,10 @@ describe('layerTree', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
-					layerTree.getFolderByKey(
-						test.layersTreeState,
-						test.folderKey
-					),
+					layerTree.getFolderByKey(test.layersTreeState, test.folderKey),
 					test.expectedFolder
 				);
 			});
@@ -123,13 +120,10 @@ describe('layerTree', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
-					layerTree.getFolderByLayerKey(
-						test.layersTree,
-						test.layerKey
-					),
+					layerTree.getFolderByLayerKey(test.layersTree, test.layerKey),
 					test.expectedFolder
 				);
 			});
@@ -159,7 +153,7 @@ describe('layerTree', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
 					layerTree.getFlattenLayers(test.layersTree),
@@ -174,7 +168,7 @@ describe('layerTree', function () {
 			{
 				name: 'empty tree',
 				layersTree: [],
-				callback: (item) => 1,
+				callback: item => 1,
 				expectedResult: [],
 			},
 			{
@@ -190,7 +184,7 @@ describe('layerTree', function () {
 					},
 					{type: 'layerTemplate', name: 't1'},
 				],
-				callback: (item) => item.name,
+				callback: item => item.name,
 				expectedResult: ['t1'],
 			},
 			{
@@ -206,12 +200,12 @@ describe('layerTree', function () {
 						],
 					},
 				],
-				callback: (item) => item.name,
+				callback: item => item.name,
 				expectedResult: [],
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
 					layerTree.forAllTreeItems(test.layersTree, test.callback),
@@ -246,7 +240,7 @@ describe('layerTree', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
 					layerTree.getFlattenLayerTree(test.layersTree),
@@ -310,13 +304,10 @@ describe('layerTree', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.strictEqual(
-					layerTree.getLayerZindex(
-						test.layersTree,
-						test.layerTemplateKey
-					),
+					layerTree.getLayerZindex(test.layersTree, test.layerTemplateKey),
 					test.expectedResult
 				);
 			});

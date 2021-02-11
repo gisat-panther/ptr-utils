@@ -15,7 +15,13 @@ class ClickPickController {
 	 * @param {Function} cb A callback function to call with the current highlighted renderables.
 	 */
 	constructor(wwd, cb) {
-		const events = ['mousemove', 'mousedown', 'mouseup', 'touchstart', 'touchend'];
+		const events = [
+			'mousemove',
+			'mousedown',
+			'mouseup',
+			'touchstart',
+			'touchend',
+		];
 		this.wwd = wwd;
 		this.cb = cb;
 		this.mouseDown = false;
@@ -32,28 +38,27 @@ class ClickPickController {
 	eventListener(wwd, cb, event) {
 		switch (event.type) {
 			case 'mousemove':
-				this.stopClick()
+				this.stopClick();
 				//stop
 				return;
 			case 'touchstart':
-				this.startClick(event)
+				this.startClick(event);
 				//start
 				return;
 			case 'mousedown':
-				this.startClick(event)
+				this.startClick(event);
 				//start
 				return;
 			case 'touchend':
 				this.onClickEnd(event);
 				//handle? or stop
-				return;	
+				return;
 			case 'mouseup':
 				this.onClickEnd(event);
-				//handle? or stop 
+				//handle? or stop
 				return;
 		}
 	}
-
 
 	stopClick() {
 		this.timeout = null;
@@ -62,16 +67,20 @@ class ClickPickController {
 	startClick(event) {
 		this.timeout = new Date();
 
-		const x = event.touches && event.touches[0] && event.touches[0].clientX || event.clientX;
-		const y = event.touches && event.touches[0] && event.touches[0].clientY || event.clientY;
+		const x =
+			(event.touches && event.touches[0] && event.touches[0].clientX) ||
+			event.clientX;
+		const y =
+			(event.touches && event.touches[0] && event.touches[0].clientY) ||
+			event.clientY;
 
 		const pickList = this.wwd.pick(this.wwd.canvasCoordinates(x, y));
 		this.highlightedRenderables = this.setNextHighlightStage(pickList.objects);
 	}
 
 	onClickEnd(event) {
-		if(this.timeout) {
-			if(new Date() - this.timeout > CLICK_TRESHOLD) {
+		if (this.timeout) {
+			if (new Date() - this.timeout > CLICK_TRESHOLD) {
 				this.stopClick();
 				this.cb(this.highlightedRenderables, event);
 			} else {
@@ -86,9 +95,11 @@ class ClickPickController {
 	 * @returns {Renderable[]} An array with the highlighted renderables.
 	 */
 	setNextHighlightStage(renderables) {
-		renderables = renderables.filter(r => {
-			return !r.isTerrain;
-		}).reverse();
+		renderables = renderables
+			.filter(r => {
+				return !r.isTerrain;
+			})
+			.reverse();
 
 		let numHighlighted = 0,
 			currentHighlight;

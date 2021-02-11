@@ -14,9 +14,7 @@ describe('models', function () {
 				name: 'matching scope',
 				scopes: [{urls: ['http://example2.com', 'http://example.com']}],
 				url: 'http://example.com',
-				expectedResult: [
-					{urls: ['http://example2.com', 'http://example.com']},
-				],
+				expectedResult: [{urls: ['http://example2.com', 'http://example.com']}],
 			},
 			{
 				name: 'matching scope2',
@@ -34,7 +32,7 @@ describe('models', function () {
 			},
 		];
 
-		tests.forEach((test) => {
+		tests.forEach(test => {
 			it(test.name, function () {
 				assert.deepStrictEqual(
 					models.filterScopesByUrl(test.scopes, test.url),

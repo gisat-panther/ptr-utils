@@ -1,4 +1,5 @@
-const countDecimals = (value) =>  value % 1?value.toString().split(".")[1].length:0;
+const countDecimals = value =>
+	value % 1 ? value.toString().split('.')[1].length : 0;
 
 const round = (number, decimals) => {
 	const roundDecimals = Math.pow(10, decimals);
@@ -8,7 +9,7 @@ const round = (number, decimals) => {
 //7 -> 7.1 ok
 //8.78 -> 8.79 ??
 const roundHigher = (number, decimals) => {
-	const base = round(number, decimals)
+	const base = round(number, decimals);
 
 	//add last decimal
 	const baseDecimals = countDecimals(base) || 1;
@@ -21,5 +22,5 @@ const roundHigher = (number, decimals) => {
 export default {
 	countDecimals,
 	round,
-	roundHigher
-}
+	roundHigher,
+};
