@@ -1,3 +1,15 @@
+# v1.3.10 (Mon Feb 15 2021)
+
+#### 🐾 Patch
+
+- Bump ini from 1.3.5 to 1.3.8 [#14](https://github.com/gisat-panther/ptr-utils/pull/14) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 1
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+
+---
+
 # v1.3.9 (Thu Feb 11 2021)
 
 #### 🐾 Patch
