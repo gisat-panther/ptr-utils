@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import 'isomorphic-fetch';
 
 import view from './view';
