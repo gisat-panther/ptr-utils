@@ -1,5 +1,6 @@
 const config = {
-	spec: './build/bundle-tests.js',
+	spec: 'tests/**/*-test.js',
+	require: '@babel/register',
 };
 
 module.exports = config;

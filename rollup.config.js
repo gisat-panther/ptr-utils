@@ -1,4 +1,4 @@
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import filesize from 'rollup-plugin-filesize';
 
@@ -29,7 +29,8 @@ export default {
 	input: 'src/index.js',
 	external: [
 		'isomorphic-fetch',
-		'@turf/turf',
+		'@turf/bbox',
+		'@turf/center',
 		're-reselect',
 		'chroma-js',
 		'moment',
