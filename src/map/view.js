@@ -1,4 +1,5 @@
-import * as turf from '@turf/turf';
+import turfBbox from '@turf/bbox';
+import turfCenter from '@turf/center';
 import createCachedSelector from 're-reselect';
 import _ from 'lodash';
 import {mapConstants} from '@gisatcz/ptr-core';
@@ -89,8 +90,8 @@ function getViewFromBoundingBox(bbox, reflectLatitude) {
  * @return {Object} view
  */
 function getViewFromGeometry(geometry, reflectLatitude) {
-	let center = turf.center(geometry);
-	let bbox = turf.bbox(geometry);
+	let center = turfCenter(geometry);
+	let bbox = turfBbox(geometry);
 	let boxRange = getBoxRangeFromBoundingBox(
 		{
 			minLat: bbox[1],

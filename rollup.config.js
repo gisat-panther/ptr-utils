@@ -29,7 +29,8 @@ export default {
 	input: 'src/index.js',
 	external: [
 		'isomorphic-fetch',
-		'@turf/turf',
+		'@turf/bbox',
+		'@turf/center',
 		're-reselect',
 		'chroma-js',
 		'moment',
