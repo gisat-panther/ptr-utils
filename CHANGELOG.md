@@ -1,3 +1,15 @@
+# v1.3.12 (Fri Feb 19 2021)
+
+#### 🐾 Patch
+
+- Opt/size tests [#18](https://github.com/gisat-panther/ptr-utils/pull/18) ([@vlach1989](https://github.com/vlach1989))
+
+#### Authors: 1
+
+- Pavel Vlach ([@vlach1989](https://github.com/vlach1989))
+
+---
+
 # v1.3.11 (Mon Feb 15 2021)
 
 #### 🐾 Patch
