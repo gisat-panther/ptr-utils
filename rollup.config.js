@@ -1,6 +1,7 @@
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import filesize from 'rollup-plugin-filesize';
+import {visualizer} from 'rollup-plugin-visualizer';
 
 const env = process.env.NODE_ENV;
 const pkg = require('./package.json');
@@ -54,12 +55,13 @@ export default {
 	plugins: [
 		babel({
 			plugins: ['lodash'],
-			babelHelpers: 'runtime'
+			babelHelpers: 'runtime',
 		}),
 		commonjs({
 			include: 'node_modules/**',
 		}),
 		filesize(),
+		visualizer(),
 	],
 	onwarn: function (warning, handler) {
 		if (/external dependency/.test(warning)) {
