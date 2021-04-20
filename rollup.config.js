@@ -20,6 +20,7 @@ const lodashExternal = [
 	'lodash/isNumber',
 	'lodash/mapValues',
 	'lodash/isObjectLike',
+	'lodash/objectLike',
 	'lodash/forIn',
 	'lodash/every',
 	'lodash/some',
@@ -35,6 +36,7 @@ export default {
 		'chroma-js',
 		'moment',
 		'@gisatcz/ptr-core',
+		/@babel\/runtime/,
 		...lodashExternal,
 	],
 	output: {
@@ -52,6 +54,7 @@ export default {
 	plugins: [
 		babel({
 			plugins: ['lodash'],
+			babelHelpers: 'runtime'
 		}),
 		commonjs({
 			include: 'node_modules/**',

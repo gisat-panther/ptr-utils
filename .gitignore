@@ -12,6 +12,10 @@
 /dist
 /lib
 
+#bundle statistics
+stats.json
+stats.html
+
 # misc
 /.idea
 .DS_Store
