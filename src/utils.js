@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import {objectLike as _objectLike, mapValues as _mapValues} from 'lodash';
 import period from './period';
 
 export default {
@@ -69,8 +69,8 @@ export default {
 	 * @returns object
 	 */
 	deepKeyMirror(object, path) {
-		if (_.isObjectLike(object)) {
-			return _.mapValues(object, (value, key) => {
+		if (_isObjectLike(object)) {
+			return _mapValues(object, (value, key) => {
 				return this.deepKeyMirror(value, path ? path + '.' + key : key);
 			});
 		} else {

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import {filter as _filter} from 'lodash';
 
 /**
  * Filter scopes by current url
@@ -8,7 +8,7 @@ import _ from 'lodash';
  */
 const filterScopesByUrl = (scopes, url) => {
 	if (scopes) {
-		return _.filter(scopes, scope => {
+		return _filter(scopes, scope => {
 			return scope.urls && scope.urls.includes(url);
 		});
 	} else {
