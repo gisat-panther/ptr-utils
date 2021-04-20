@@ -5,12 +5,12 @@
 
 # testing
 /coverage
+/.nyc_output
 
 # production
 /build
 /dist
 /lib
-
 
 # misc
 /.idea
@@ -20,3 +20,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+#dev
+rollup.config.js

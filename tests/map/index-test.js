@@ -7,7 +7,7 @@ import {
 } from '../../src/map';
 
 describe('mergeLayers', function () {
-	it('mergeLayers', function () {
+	it('mergeLayers _1', function () {
 		const layers1 = ['coffe', 'bananna', 'tea'];
 		const layers2 = ['car', 'bananna', 'house'];
 
@@ -23,7 +23,7 @@ describe('mergeLayers', function () {
 		assert.deepEqual(mergeLayers(), null);
 	});
 
-	it('mergeLayers', function () {
+	it('mergeLayers _2', function () {
 		const layers1 = ['coffe', 'bananna', 'tea'];
 		const layers2 = ['car', 'bananna', 'house'];
 

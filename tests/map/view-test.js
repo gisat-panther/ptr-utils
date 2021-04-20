@@ -203,21 +203,21 @@ describe('mergeViews', function () {
 });
 
 describe('getViewFromBoundingBox', function () {
-	it('returns bounding box', function () {
+	it('returns bounding box _1', function () {
 		const BBox = getViewFromBoundingBox([10, 10, -10, -10], true);
 
 		assert.deepEqual(BBox.center, {lon: 0, lat: 0});
 		assert.deepEqual(BBox.boxRange, 2500000);
 	});
 
-	it('returns bounding box', function () {
+	it('returns bounding box _2', function () {
 		const BBox = getViewFromBoundingBox([90, 90, -10, -10]);
 
 		assert.deepEqual(BBox.center, {lon: 40, lat: 40});
 		assert.deepEqual(BBox.boxRange, 12500000);
 	});
 
-	it('returns bounding box', function () {
+	it('returns bounding box _3', function () {
 		const BBox = getViewFromBoundingBox([90, 90, -10, -10], true);
 
 		assert.deepEqual(BBox.center, {lon: 40, lat: 40});
@@ -226,7 +226,7 @@ describe('getViewFromBoundingBox', function () {
 });
 
 describe('getViewFromGeometry', function () {
-	it('returns view centered on geometry', function () {
+	it('returns view centered on geometry _1', function () {
 		const view = getViewFromGeometry(geometry, true);
 
 		assert.deepEqual(view, {
@@ -238,7 +238,7 @@ describe('getViewFromGeometry', function () {
 		});
 	});
 
-	it('returns view centered on geometry', function () {
+	it('returns view centered on geometry _2', function () {
 		const view = getViewFromGeometry(geometry);
 
 		assert.deepEqual(view, {
@@ -265,12 +265,12 @@ describe('getZoomLevelFromBoxRange', function () {
 describe('getZoomLevelFromPixelSize', function () {
 	const levelsPxSize = mapConstants.pixelSizeInLevels;
 
-	it('Identify level by pixelsize', function () {
+	it('Identify level by pixelsize _1', function () {
 		const level = getZoomLevelFromPixelSize(1000000);
 		assert.equal(level, 0);
 	});
 
-	it('Identify level by pixelsize', function () {
+	it('Identify level by pixelsize _2', function () {
 		const level = getZoomLevelFromPixelSize(1);
 		assert.equal(level, 16);
 	});
@@ -305,24 +305,24 @@ describe('getZoomLevelFromPixelSize', function () {
 });
 
 describe('getMapViewportRange', function () {
-	it('100 is smaller than 200', function () {
+	it('100 is smaller than 200 _1', function () {
 		assert.equal(getMapViewportRange(100, 200), 100);
 	});
-	it('100 is smaller than 200', function () {
+	it('100 is smaller than 200 _2', function () {
 		assert.equal(getMapViewportRange(200, 100), 100);
 	});
 
-	it('check if params are filled', function () {
+	it('check if params are filled _1', function () {
 		assert.equal(getMapViewportRange(100, null), null);
 	});
 
-	it('check if params are filled', function () {
+	it('check if params are filled _2', function () {
 		assert.equal(getMapViewportRange(undefined, 100), null);
 	});
 });
 
 describe('getBoxRangeFromZoomLevel', function () {
-	it('returns box range', function () {
+	it('returns box range _1', function () {
 		const width = 600; //px
 		const height = 300; //px
 		const boxRange = getBoxRangeFromZoomLevel(0, width, height);
@@ -330,7 +330,7 @@ describe('getBoxRangeFromZoomLevel', function () {
 		assert.equal(boxRange, 30187175.77750529);
 	});
 
-	it('returns box range', function () {
+	it('returns box range _2', function () {
 		const width = 300; //px
 		const height = 600; //px
 		const boxRange = getBoxRangeFromZoomLevel(0, width, height);
