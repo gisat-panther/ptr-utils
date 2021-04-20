@@ -25,8 +25,14 @@ export default {
 	randomString: length =>
 		((Math.random() * Math.pow(36, length)) >> 0).toString(36),
 
-	getRemSize: () =>
-		parseFloat(getComputedStyle(document.documentElement).fontSize),
+	getRemSize: () => {
+		if (typeof window === 'undefined') {
+			//return default fontsize 16px when run on SSR
+			return 16;
+		} else {
+			parseFloat(getComputedStyle(document.documentElement).fontSize);
+		}
+	},
 
 	scrollTo(elementId, containerId, duration) {
 		let animationDuration = duration ? duration : 200;
