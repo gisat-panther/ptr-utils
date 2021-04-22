@@ -1,5 +1,6 @@
 import {objectLike as _objectLike, mapValues as _mapValues} from 'lodash';
 import period from './period';
+import {isObjectLike as _isObjectLike} from 'lodash';
 
 export default {
 	period,
