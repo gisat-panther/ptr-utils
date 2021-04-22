@@ -25,6 +25,7 @@
 		"url": "https://github.com/gisat/ptr-utils"
 	},
 	"dependencies": {
+		"@babel/runtime": "^7.13.16",
 		"@gisatcz/ptr-core": "^1.3.8",
 		"@turf/bbox": "^6.3.0",
 		"@turf/center": "^6.3.0",
