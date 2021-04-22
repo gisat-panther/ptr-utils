@@ -1,5 +1,6 @@
-import _ from 'lodash';
+import {objectLike as _objectLike, mapValues as _mapValues} from 'lodash';
 import period from './period';
+import {isObjectLike as _isObjectLike} from 'lodash';
 
 export default {
 	period,
@@ -25,8 +26,14 @@ export default {
 	randomString: length =>
 		((Math.random() * Math.pow(36, length)) >> 0).toString(36),
 
-	getRemSize: () =>
-		parseFloat(getComputedStyle(document.documentElement).fontSize),
+	getRemSize: () => {
+		if (typeof window === 'undefined') {
+			//return default fontsize 16px when run on SSR
+			return 16;
+		} else {
+			parseFloat(getComputedStyle(document.documentElement).fontSize);
+		}
+	},
 
 	scrollTo(elementId, containerId, duration) {
 		let animationDuration = duration ? duration : 200;
@@ -63,8 +70,8 @@ export default {
 	 * @returns object
 	 */
 	deepKeyMirror(object, path) {
-		if (_.isObjectLike(object)) {
-			return _.mapValues(object, (value, key) => {
+		if (_isObjectLike(object)) {
+			return _mapValues(object, (value, key) => {
 				return this.deepKeyMirror(value, path ? path + '.' + key : key);
 			});
 		} else {

@@ -5,12 +5,16 @@
 
 # testing
 /coverage
+/.nyc_output
 
 # production
 /build
 /dist
 /lib
 
+#bundle statistics
+stats.json
+stats.html
 
 # misc
 /.idea
@@ -19,4 +23,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-

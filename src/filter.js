@@ -1,4 +1,12 @@
-import _ from 'lodash';
+import {
+	map as _map,
+	set as _set,
+	filter as _filter,
+	isArray as _isArray,
+	get as _get,
+	some as _some,
+	every as _every,
+} from 'lodash';
 
 /**
  *
@@ -17,14 +25,14 @@ function filterDataWithNullValue(
 	if (!serieSourcePath) {
 		return filterData(data, valueSourcePaths, allValuesNull);
 	} else {
-		const withoutNullValues = _.map(data, item => {
-			const data = _.get(item, serieSourcePath);
+		const withoutNullValues = _map(data, item => {
+			const data = _get(item, serieSourcePath);
 			const filteredData = filterData(data, valueSourcePaths);
-			return _.set({...item}, serieSourcePath, filteredData);
+			return _set({...item}, serieSourcePath, filteredData);
 		});
 
-		return _.filter(withoutNullValues, item => {
-			const data = _.get(item, serieSourcePath);
+		return _filter(withoutNullValues, item => {
+			const data = _get(item, serieSourcePath);
 			return data && data.length !== 0;
 		});
 	}
@@ -35,13 +43,13 @@ function isNull(val) {
 }
 
 function filterData(data, valueSourcePaths, allValuesNull) {
-	return _.filter(data, item => {
-		if (_.isArray(valueSourcePaths)) {
-			const nullN = allValuesNull ? _.every : _.some;
+	return _filter(data, item => {
+		if (_isArray(valueSourcePaths)) {
+			const nullN = allValuesNull ? _every : _some;
 
-			return !nullN(valueSourcePaths, path => isNull(_.get(item, path)));
+			return !nullN(valueSourcePaths, path => isNull(_get(item, path)));
 		} else {
-			return !isNull(_.get(item, valueSourcePaths));
+			return !isNull(_get(item, valueSourcePaths));
 		}
 	});
 }

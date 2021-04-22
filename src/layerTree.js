@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import {isArray as _isArray, isObject as _isObject} from 'lodash';
 
 /**
  *
@@ -28,7 +28,7 @@ const getFolderByKey = (layersTreeState = [], folderKey) => {
  * @returns {Object|null}
  */
 const getFolderByLayerKey = (layersTree, layerKey) => {
-	if (_.isArray(layersTree)) {
+	if (_isArray(layersTree)) {
 		for (const item of layersTree) {
 			const folder = getFolderByLayerKey(item, layerKey);
 			if (folder) {
@@ -37,7 +37,7 @@ const getFolderByLayerKey = (layersTree, layerKey) => {
 		}
 	}
 
-	if (_.isObject(layersTree)) {
+	if (_isObject(layersTree)) {
 		//check if some child layer has same key
 		if (layersTree && layersTree.type === 'folder') {
 			const containsLayer = layersTree.items.some(

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import {each as _each} from 'lodash';
 import chroma from 'chroma-js';
 
 const DEFAULT_SIZE = 15;
@@ -7,13 +7,13 @@ function getStyleObject(attributes, styleDefinition) {
 	let finalStyleObject = {};
 
 	if (styleDefinition && styleDefinition.rules) {
-		_.each(styleDefinition.rules, rule => {
+		_each(styleDefinition.rules, rule => {
 			if (rule.filter) {
 				// TODO apply filter
 			}
 
 			if (rule.styles) {
-				_.each(rule.styles, style => {
+				_each(rule.styles, style => {
 					let styleObject = null;
 					if (style.attributeKey) {
 						styleObject = getStyleObjectForAttribute(style, attributes);
@@ -78,7 +78,7 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
  */
 function getStyleObjectForAttributeClasses(attributeClasses, value) {
 	let styleObject = {};
-	_.each(attributeClasses, attributeClass => {
+	_each(attributeClasses, attributeClass => {
 		let {interval, intervalBounds, ...style} = attributeClass;
 
 		if (!intervalBounds) {
@@ -200,7 +200,7 @@ function isGreaterThan(comparedValue, referenceValue, allowEquality) {
 }
 
 function doMathOperations(operations, value) {
-	_.each(operations, operation => {
+	_each(operations, operation => {
 		if (operation === 'abs') {
 			value = Math.abs(value);
 		} else if (operation === 'sign') {

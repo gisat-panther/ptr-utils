@@ -1,7 +1,7 @@
 import turfBbox from '@turf/bbox';
 import turfCenter from '@turf/center';
 import createCachedSelector from 're-reselect';
-import _ from 'lodash';
+import {isArray as _isArray} from 'lodash';
 import {mapConstants} from '@gisatcz/ptr-core';
 import math from '../math';
 import projections from './projections';
@@ -59,7 +59,7 @@ function getBoxRangeFromBoundingBox(bbox, latitude) {
 
 // TODO naive for now
 function getViewFromBoundingBox(bbox, reflectLatitude) {
-	if (_.isArray(bbox)) {
+	if (_isArray(bbox)) {
 		bbox = {
 			minLat: bbox[1],
 			minLon: bbox[0],
