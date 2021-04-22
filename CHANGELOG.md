@@ -1,3 +1,15 @@
+# v1.3.13 (Thu Apr 22 2021)
+
+#### 🐾 Patch
+
+- Feature/build improvements [#19](https://github.com/gisat-panther/ptr-utils/pull/19) ([@vdubr](https://github.com/vdubr))
+
+#### Authors: 1
+
+- Vojtěch Dubrovský ([@vdubr](https://github.com/vdubr))
+
+---
+
 # v1.3.12 (Fri Feb 19 2021)
 
 #### 🐾 Patch
