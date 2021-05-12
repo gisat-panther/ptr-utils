@@ -31,7 +31,7 @@ export default {
 			//return default fontsize 16px when run on SSR
 			return 16;
 		} else {
-			parseFloat(getComputedStyle(document.documentElement).fontSize);
+			return parseFloat(getComputedStyle(document.documentElement).fontSize);
 		}
 	},
 
