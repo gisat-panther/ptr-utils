@@ -1,3 +1,15 @@
+# v1.3.14 (Wed May 12 2021)
+
+#### 🐾 Patch
+
+- getRemSize returns value on browser [#22](https://github.com/gisat-panther/ptr-utils/pull/22) ([@vdubr](https://github.com/vdubr))
+
+#### Authors: 1
+
+- Vojtěch Dubrovský ([@vdubr](https://github.com/vdubr))
+
+---
+
 # v1.3.13 (Thu Apr 22 2021)
 
 #### 🐾 Patch
