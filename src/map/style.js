@@ -79,7 +79,7 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 function getStyleObjectForAttributeClasses(attributeClasses, value) {
 	let styleObject = {};
 	_each(attributeClasses, attributeClass => {
-		let {interval, intervalBounds, ...style} = attributeClass;
+		let {interval, intervalBounds} = attributeClass;
 
 		if (!intervalBounds) {
 			intervalBounds = [true, false];
@@ -89,7 +89,7 @@ function getStyleObjectForAttributeClasses(attributeClasses, value) {
 			isGreaterThan(value, interval[0], intervalBounds[0]) &&
 			isGreaterThan(interval[1], value, intervalBounds[1])
 		) {
-			styleObject = {...styleObject, ...style};
+			styleObject = attributeClass;
 		}
 	});
 
@@ -224,6 +224,8 @@ function hexToRgb(hex) {
 
 export default {
 	getStyleObject,
+	getStyleObjectForAttributeClasses,
+	getStyleObjectForAttributeValues,
 	hexToRgb,
 	DEFAULT_SIZE,
 };
