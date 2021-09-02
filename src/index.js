@@ -7,7 +7,7 @@ import gTag from './gtag';
 import layerTree from './layerTree';
 import legend from './legend';
 import map from './map';
-import mapStyle from './mapStyle';
+import mapStyle from './map/style';
 import math from './math';
 import models from './models';
 import period from './period';
