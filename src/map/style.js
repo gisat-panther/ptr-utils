@@ -3,6 +3,12 @@ import chroma from 'chroma-js';
 
 const DEFAULT_SIZE = 15;
 
+/**
+ * Get style object for vector
+ * @param attributes {Object} Feature attributes
+ * @param styleDefinition {Object} Panther style definition
+ * @returns {Object} Panther style object
+ */
 function getStyleObject(attributes, styleDefinition) {
 	let finalStyleObject = {};
 
@@ -17,6 +23,39 @@ function getStyleObject(attributes, styleDefinition) {
 					let styleObject = null;
 					if (style.attributeKey) {
 						styleObject = getStyleObjectForAttribute(style, attributes);
+					} else {
+						styleObject = style;
+					}
+
+					finalStyleObject = {...finalStyleObject, ...styleObject};
+				});
+			}
+		});
+	}
+
+	return finalStyleObject;
+}
+
+/**
+ * Get style object for raster
+ * @param bands {Array} Pixel values
+ * @param styleDefinition {Object} Panther style definition
+ * @returns {Object} Panther style object
+ */
+function getStyleObjectForRaster(bands, styleDefinition) {
+	let finalStyleObject = {};
+
+	if (styleDefinition && styleDefinition.rules) {
+		_each(styleDefinition.rules, rule => {
+			if (rule.filter) {
+				// TODO apply filter
+			}
+
+			if (rule.styles) {
+				_each(rule.styles, style => {
+					let styleObject = null;
+					if (style.bandIndex > -1) {
+						styleObject = getStyleObjectForBand(style, bands[style.bandIndex]);
 					} else {
 						styleObject = style;
 					}
@@ -58,6 +97,32 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 				styleDefinition.attributeValues,
 				value
 			);
+		}
+		// TODO add other cases
+		else {
+			return {};
+		}
+	} else {
+		return {};
+	}
+}
+
+/**
+ * @param styleDefinition {Object} Style definition for given band
+ * @param value {number} Pixel value
+ * @return {Object} Style object for given value
+ */
+function getStyleObjectForBand(styleDefinition, value) {
+	if (value || value === 0) {
+		if (styleDefinition.values) {
+			return getStyleObjectForPixelValues(styleDefinition.values, value);
+		} else if (styleDefinition.valueClasses) {
+			return getStyleObjectForPixelValueClasses(
+				styleDefinition.valueClasses,
+				value
+			);
+		} else if (styleDefinition.scale) {
+			return getStyleObjectForPixelValueScale(styleDefinition.scale, value);
 		}
 		// TODO add other cases
 		else {
@@ -177,6 +242,86 @@ function getStyleObjectForAttributeTransformation(
 	}
 }
 
+// RASTER STYLE TYPES ---------------------------------------------------------------
+
+/**
+ * Pixel value
+ *
+ * @param styleDefinitionValues {Object}
+ * @param value {number} pixel value
+ * @return {Object}
+ */
+function getStyleObjectForPixelValues(styleDefinitionValues, value) {
+	return styleDefinitionValues[value] || {};
+}
+
+/**
+ * Pixel value classes
+ *
+ * @param valueClasses {Array}
+ * @param value {number|String} pixel value
+ */
+function getStyleObjectForPixelValueClasses(valueClasses, value) {
+	let styleObject = {};
+	_each(valueClasses, valueClass => {
+		let {interval, intervalBounds} = valueClass;
+
+		if (!intervalBounds) {
+			intervalBounds = [true, false];
+		}
+
+		if (
+			isGreaterThan(value, interval[0], intervalBounds[0]) &&
+			isGreaterThan(interval[1], value, intervalBounds[1])
+		) {
+			styleObject = valueClass;
+		}
+	});
+
+	return styleObject;
+}
+
+/**
+ * Pixel value scale
+ *
+ * @param scale {Object}
+ * @param value {number} pixel value
+ * @return {Object} Panther style object
+ */
+function getStyleObjectForPixelValueScale(scale, value) {
+	if (scale.color) {
+		let {
+			inputTransformation,
+			inputInterval,
+			inputIntervalBounds,
+			outputInterval,
+		} = scale.color;
+
+		// check transformations
+		if (inputTransformation) {
+			value = doMathOperations(inputTransformation, value);
+		}
+
+		if (!inputIntervalBounds) {
+			inputIntervalBounds = [true, true];
+		}
+
+		if (
+			isGreaterThan(value, inputInterval[0], inputIntervalBounds[0]) &&
+			isGreaterThan(inputInterval[1], value, inputIntervalBounds[1])
+		) {
+			let colorScale = chroma.scale(outputInterval).domain(inputInterval);
+			return {
+				color: chroma(colorScale(value)).hex(),
+			};
+		} else {
+			return null;
+		}
+	} else {
+		return null;
+	}
+}
+
 // HELPERS --------------------------------------------------------------------------------
 function scaleValue(inputInterval, outputInterval, value) {
 	const x1 = inputInterval[0];
@@ -224,6 +369,7 @@ function hexToRgb(hex) {
 
 export default {
 	getStyleObject,
+	getStyleObjectForRaster,
 	getStyleObjectForAttributeClasses,
 	getStyleObjectForAttributeValues,
 	hexToRgb,
