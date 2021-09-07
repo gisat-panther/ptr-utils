@@ -3,13 +3,15 @@ import chroma from 'chroma-js';
 
 const DEFAULT_SIZE = 15;
 
+// TODO tests
+
 /**
  * Get style object for vector
  * @param attributes {Object} Feature attributes
  * @param styleDefinition {Object} Panther style definition
- * @returns {Object} Panther style object
+ * @returns {Object} Merged Panther style object for given feature
  */
-function getStyleObject(attributes, styleDefinition) {
+function getStyleObjectForVector(attributes, styleDefinition) {
 	let finalStyleObject = {};
 
 	if (styleDefinition && styleDefinition.rules) {
@@ -40,7 +42,7 @@ function getStyleObject(attributes, styleDefinition) {
  * Get style object for raster
  * @param bands {Array} Pixel values
  * @param styleDefinition {Object} Panther style definition
- * @returns {Object} Panther style object
+ * @returns {Object} Merged Panther style object for given pixel value
  */
 function getStyleObjectForRaster(bands, styleDefinition) {
 	let finalStyleObject = {};
@@ -70,8 +72,9 @@ function getStyleObjectForRaster(bands, styleDefinition) {
 }
 
 /**
+ * Get style object for attribute of given feature
  * @param styleDefinition {Object} Style definition for given attribute key
- * @param attributes {Object} Feature attributes
+ * @param attributes {Object} All feature attributes
  * @return {Object} Style object for given attribute key
  */
 function getStyleObjectForAttribute(styleDefinition, attributes) {
@@ -83,10 +86,7 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 				value
 			);
 		} else if (styleDefinition.attributeScale) {
-			return getStyleObjectForAttributeScale(
-				styleDefinition.attributeScale,
-				value
-			);
+			return getStyleObjectForScale(styleDefinition.attributeScale, value);
 		} else if (styleDefinition.attributeTransformation) {
 			return getStyleObjectForAttributeTransformation(
 				styleDefinition.attributeTransformation,
@@ -105,9 +105,10 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 }
 
 /**
+ * Get style object for band of given pixel
  * @param styleDefinition {Object} Style definition for given band
  * @param value {number} Pixel value
- * @return {Object} Style object for given value
+ * @return {Object} Style object for given pixel
  */
 function getStyleObjectForBand(styleDefinition, value) {
 	if (value || value === 0) {
@@ -116,7 +117,7 @@ function getStyleObjectForBand(styleDefinition, value) {
 		} else if (styleDefinition.valueClasses) {
 			return getStyleObjectForIntervals(styleDefinition.valueClasses, value);
 		} else if (styleDefinition.scale) {
-			return getStyleObjectForPixelValueScale(styleDefinition.scale, value);
+			return getStyleObjectForScale(styleDefinition.scale, value);
 		}
 		// TODO add other cases
 		else {
@@ -128,9 +129,9 @@ function getStyleObjectForBand(styleDefinition, value) {
 }
 
 /**
- * Get style object for vector attributeClasses/raster valueClasses
- * @param intervals {Array} All intervals
- * @param value {number} attribute value
+ * Get style object for vector attributeClasses/raster valueClasses for given value
+ * @param intervals {Array} All intervals definitions
+ * @param value {number} attribute/pixel value
  * @returns {Object} Panther style object
  */
 function getStyleObjectForIntervals(intervals, value) {
@@ -154,66 +155,86 @@ function getStyleObjectForIntervals(intervals, value) {
 }
 
 /**
- * Get style object for vector attributeValues/raster pixel values
+ * Get style object for vector attributeValues/raster pixel values for given value
  * @param valuesDefinition {Array} value-based style definition
- * @param value {number|string} attribute value
+ * @param value {number|string} attribute/pixel value
  * @returns {Object} Panther style object
  */
 function getStyleObjectForValues(valuesDefinition, value) {
 	return valuesDefinition[value] || {};
 }
 
-// ATTRIBUTE STYLE TYPES ---------------------------------------------------------------
-
 /**
- * Attribute scale
- *
- * @param attributeScale {Object}
- * @param value {number|String} attribute value
+ * Get style object for vector attributeScales/raster pixel value scale for given value
+ * @param scaleDefinition {Object} scale style definition
+ * @param value {number} attribute/pixel value
+ * @returns {Object} Panther style object
  */
-function getStyleObjectForAttributeScale(attributeScale, value) {
-	let parameter = Object.keys(attributeScale)[0];
-	let definitions = attributeScale[parameter];
+function getStyleObjectForScale(scaleDefinition, value) {
+	const parameter = Object.keys(scaleDefinition)[0];
+	const definitions = scaleDefinition[parameter];
 
-	// check transformations
-	if (definitions.inputTransformation) {
-		value = doMathOperations(definitions.inputTransformation, value);
-	}
+	if (definitions) {
+		let {
+			inputTransformation,
+			inputInterval,
+			inputIntervalBounds,
+			outputInterval,
+		} = definitions;
 
-	switch (parameter) {
-		case 'outlineWidth':
-		case 'diagramOutlineWidth':
-		case 'outlineOpacity':
-		case 'diagramOpacity':
-		case 'fillOpacity':
-		case 'diagramFillOpacity':
-		case 'size':
-		case 'diagramSize':
-		case 'volume':
-		case 'diagramVolume':
-		case 'arrowLength':
-			return {
-				[parameter]: scaleValue(
-					definitions.inputInterval,
-					definitions.outputInterval,
-					value
-				),
-			};
-		case 'outlineColor':
-		case 'diagramOutlineColor':
-		case 'fill':
-		case 'diagramFill':
-			let scale = chroma
-				.scale(definitions.outputInterval)
-				.domain(definitions.inputInterval);
-			return {
-				[parameter]: chroma(scale(value)).hex(),
-			};
-		default:
+		// check transformations
+		if (inputTransformation) {
+			value = doMathOperations(inputTransformation, value);
+		}
+
+		if (!inputIntervalBounds) {
+			inputIntervalBounds = [true, true];
+		}
+
+		if (
+			isGreaterThan(value, inputInterval[0], inputIntervalBounds[0]) &&
+			isGreaterThan(inputInterval[1], value, inputIntervalBounds[1])
+		) {
+			switch (parameter) {
+				case 'outlineWidth':
+				case 'diagramOutlineWidth':
+				case 'outlineOpacity':
+				case 'diagramOpacity':
+				case 'fillOpacity':
+				case 'diagramFillOpacity':
+				case 'size':
+				case 'diagramSize':
+				case 'volume':
+				case 'diagramVolume':
+				case 'arrowLength':
+					return {
+						[parameter]: scaleValue(inputInterval, outputInterval, value),
+					};
+				case 'outlineColor':
+				case 'diagramOutlineColor':
+				case 'fill':
+				case 'diagramFill':
+				case 'color':
+					let scale = chroma.scale(outputInterval).domain(inputInterval);
+					return {
+						[parameter]: chroma(scale(value)).hex(),
+					};
+				default:
+					return {};
+			}
+		} else {
 			return {};
+		}
+	} else {
+		return {};
 	}
 }
 
+/**
+ * @param attributeTransformation {Object} Attribute transformation definitions
+ * @param value {number|string} Attribute value
+ * @returns {{arrowDirection}|{}} Style object
+ */
 function getStyleObjectForAttributeTransformation(
 	attributeTransformation,
 	value
@@ -235,50 +256,14 @@ function getStyleObjectForAttributeTransformation(
 	}
 }
 
-// RASTER STYLE TYPES ---------------------------------------------------------------
+// HELPERS --------------------------------------------------------------------------------
 
 /**
- * Pixel value scale
- *
- * @param scale {Object}
- * @param value {number} pixel value
- * @return {Object} Panther style object
+ * @param inputInterval {Array}
+ * @param outputInterval {Array}
+ * @param value {number}
+ * @returns {number} scaled value
  */
-function getStyleObjectForPixelValueScale(scale, value) {
-	if (scale.color) {
-		let {
-			inputTransformation,
-			inputInterval,
-			inputIntervalBounds,
-			outputInterval,
-		} = scale.color;
-
-		// check transformations
-		if (inputTransformation) {
-			value = doMathOperations(inputTransformation, value);
-		}
-
-		if (!inputIntervalBounds) {
-			inputIntervalBounds = [true, true];
-		}
-
-		if (
-			isGreaterThan(value, inputInterval[0], inputIntervalBounds[0]) &&
-			isGreaterThan(inputInterval[1], value, inputIntervalBounds[1])
-		) {
-			let colorScale = chroma.scale(outputInterval).domain(inputInterval);
-			return {
-				color: chroma(colorScale(value)).hex(),
-			};
-		} else {
-			return null;
-		}
-	} else {
-		return null;
-	}
-}
-
-// HELPERS --------------------------------------------------------------------------------
 function scaleValue(inputInterval, outputInterval, value) {
 	const x1 = inputInterval[0];
 	const x2 = inputInterval[1];
@@ -288,18 +273,31 @@ function scaleValue(inputInterval, outputInterval, value) {
 	return (value - x1) * ((y2 - y1) / (x2 - x1)) + y1;
 }
 
-function isGreaterThan(comparedValue, referenceValue, allowEquality) {
-	if (comparedValue || comparedValue === 0) {
+/**
+ * Check if value is greater than reference or equal
+ * @param value {number}
+ * @param referenceValue {number}
+ * @param allowEquality {boolean}
+ * @returns {boolean}
+ */
+function isGreaterThan(value, referenceValue, allowEquality) {
+	if (value || value === 0) {
 		if (allowEquality) {
-			return comparedValue >= referenceValue;
+			return value >= referenceValue;
 		} else {
-			return comparedValue > referenceValue;
+			return value > referenceValue;
 		}
 	} else {
 		return false;
 	}
 }
 
+/**
+ * Do math operations with given value
+ * @param operations {Object}
+ * @param value {number}
+ * @returns {number} adjusted value
+ */
 function doMathOperations(operations, value) {
 	_each(operations, operation => {
 		if (operation === 'abs') {
@@ -312,6 +310,11 @@ function doMathOperations(operations, value) {
 	return value;
 }
 
+/**
+ * Convert color hex code to RGB object
+ * @param hex {string} color hex code
+ * @returns {{r: number, b: number, g: number}|null}
+ */
 function hexToRgb(hex) {
 	let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 	return result
@@ -324,11 +327,17 @@ function hexToRgb(hex) {
 }
 
 export default {
-	getStyleObject,
+	getStyleObject: getStyleObjectForVector,
 	getStyleObjectForRaster,
+	getStyleObjectForVector,
 
-	getStyleObjectForValues,
 	getStyleObjectForIntervals,
+	getStyleObjectForScale,
+	getStyleObjectForValues,
+
+	scaleValue,
+	isGreaterThan,
+	doMathOperations,
 	hexToRgb,
 	DEFAULT_SIZE,
 };
