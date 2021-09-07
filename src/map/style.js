@@ -78,7 +78,7 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 	if (attributes.hasOwnProperty(styleDefinition.attributeKey)) {
 		let value = attributes[styleDefinition.attributeKey];
 		if (styleDefinition.attributeClasses) {
-			return getStyleObjectForAttributeClasses(
+			return getStyleObjectForIntervals(
 				styleDefinition.attributeClasses,
 				value
 			);
@@ -93,10 +93,7 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 				value
 			);
 		} else if (styleDefinition.attributeValues) {
-			return getStyleObjectForAttributeValues(
-				styleDefinition.attributeValues,
-				value
-			);
+			return getStyleObjectForValues(styleDefinition.attributeValues, value);
 		}
 		// TODO add other cases
 		else {
@@ -115,12 +112,9 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 function getStyleObjectForBand(styleDefinition, value) {
 	if (value || value === 0) {
 		if (styleDefinition.values) {
-			return getStyleObjectForPixelValues(styleDefinition.values, value);
+			return getStyleObjectForValues(styleDefinition.values, value);
 		} else if (styleDefinition.valueClasses) {
-			return getStyleObjectForPixelValueClasses(
-				styleDefinition.valueClasses,
-				value
-			);
+			return getStyleObjectForIntervals(styleDefinition.valueClasses, value);
 		} else if (styleDefinition.scale) {
 			return getStyleObjectForPixelValueScale(styleDefinition.scale, value);
 		}
@@ -133,18 +127,16 @@ function getStyleObjectForBand(styleDefinition, value) {
 	}
 }
 
-// ATTRIBUTE STYLE TYPES ---------------------------------------------------------------
-
 /**
- * Attribute classes
- *
- * @param attributeClasses {Array}
- * @param value {number|String} attribute value
+ * Get style object for vector attributeClasses/raster valueClasses
+ * @param intervals {Array} All intervals
+ * @param value {number} attribute value
+ * @returns {Object} Panther style object
  */
-function getStyleObjectForAttributeClasses(attributeClasses, value) {
+function getStyleObjectForIntervals(intervals, value) {
 	let styleObject = {};
-	_each(attributeClasses, attributeClass => {
-		let {interval, intervalBounds} = attributeClass;
+	_each(intervals, intervalItem => {
+		let {interval, intervalBounds} = intervalItem;
 
 		if (!intervalBounds) {
 			intervalBounds = [true, false];
@@ -154,7 +146,7 @@ function getStyleObjectForAttributeClasses(attributeClasses, value) {
 			isGreaterThan(value, interval[0], intervalBounds[0]) &&
 			isGreaterThan(interval[1], value, intervalBounds[1])
 		) {
-			styleObject = attributeClass;
+			styleObject = intervalItem;
 		}
 	});
 
@@ -162,15 +154,16 @@ function getStyleObjectForAttributeClasses(attributeClasses, value) {
 }
 
 /**
- * Attribute value
- *
- * @param attributeValues {Object}
- * @param value {String} attribute value
- * @return {Object}
+ * Get style object for vector attributeValues/raster pixel values
+ * @param valuesDefinition {Array} value-based style definition
+ * @param value {number|string} attribute value
+ * @returns {Object} Panther style object
  */
-function getStyleObjectForAttributeValues(attributeValues, value) {
-	return attributeValues[value] || {};
+function getStyleObjectForValues(valuesDefinition, value) {
+	return valuesDefinition[value] || {};
 }
+
+// ATTRIBUTE STYLE TYPES ---------------------------------------------------------------
 
 /**
  * Attribute scale
@@ -243,43 +236,6 @@ function getStyleObjectForAttributeTransformation(
 }
 
 // RASTER STYLE TYPES ---------------------------------------------------------------
-
-/**
- * Pixel value
- *
- * @param styleDefinitionValues {Object}
- * @param value {number} pixel value
- * @return {Object}
- */
-function getStyleObjectForPixelValues(styleDefinitionValues, value) {
-	return styleDefinitionValues[value] || {};
-}
-
-/**
- * Pixel value classes
- *
- * @param valueClasses {Array}
- * @param value {number|String} pixel value
- */
-function getStyleObjectForPixelValueClasses(valueClasses, value) {
-	let styleObject = {};
-	_each(valueClasses, valueClass => {
-		let {interval, intervalBounds} = valueClass;
-
-		if (!intervalBounds) {
-			intervalBounds = [true, false];
-		}
-
-		if (
-			isGreaterThan(value, interval[0], intervalBounds[0]) &&
-			isGreaterThan(interval[1], value, intervalBounds[1])
-		) {
-			styleObject = valueClass;
-		}
-	});
-
-	return styleObject;
-}
 
 /**
  * Pixel value scale
@@ -370,8 +326,9 @@ function hexToRgb(hex) {
 export default {
 	getStyleObject,
 	getStyleObjectForRaster,
-	getStyleObjectForAttributeClasses,
-	getStyleObjectForAttributeValues,
+
+	getStyleObjectForValues,
+	getStyleObjectForIntervals,
 	hexToRgb,
 	DEFAULT_SIZE,
 };
