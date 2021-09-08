@@ -7,10 +7,10 @@ describe('getStyleObjectForBand', function () {
 			bandIndex: 0,
 			values: {
 				0: {
-					fill: '#aaaaaa',
+					color: '#aaaaaa',
 				},
 				1: {
-					fill: '#ffffff',
+					color: '#ffffff',
 				},
 			},
 		};
@@ -19,7 +19,7 @@ describe('getStyleObjectForBand', function () {
 
 		const output = style.getStyleObjectForBand(styleDefinition, value);
 		const expectedOutput = {
-			fill: '#ffffff',
+			color: '#ffffff',
 		};
 
 		assert.deepStrictEqual(output, expectedOutput);
@@ -30,10 +30,10 @@ describe('getStyleObjectForBand', function () {
 			bandIndex: 0,
 			values: {
 				0: {
-					fill: '#aaaaaa',
+					color: '#aaaaaa',
 				},
 				1: {
-					fill: '#ffffff',
+					color: '#ffffff',
 				},
 			},
 		};
@@ -51,10 +51,10 @@ describe('getStyleObjectForBand', function () {
 			bandIndex: 0,
 			xxx: {
 				0: {
-					fill: '#aaaaaa',
+					color: '#aaaaaa',
 				},
 				1: {
-					fill: '#ffffff',
+					color: '#ffffff',
 				},
 			},
 		};
