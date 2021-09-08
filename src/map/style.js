@@ -53,7 +53,7 @@ function getStyleObjectForRaster(bands, styleDefinition) {
 
 			if (rule.styles) {
 				_each(rule.styles, style => {
-					let styleObject = null;
+					let styleObject;
 					if (style.bandIndex > -1) {
 						styleObject = getStyleObjectForBand(style, bands[style.bandIndex]);
 					} else {
