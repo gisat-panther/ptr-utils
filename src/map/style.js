@@ -174,56 +174,52 @@ function getStyleObjectForScale(scaleDefinition, value) {
 	const parameter = Object.keys(scaleDefinition)[0];
 	const definitions = scaleDefinition[parameter];
 
-	if (definitions) {
-		let {
-			inputTransformation,
-			inputInterval,
-			inputIntervalBounds,
-			outputInterval,
-		} = definitions;
+	let {
+		inputTransformation,
+		inputInterval,
+		inputIntervalBounds,
+		outputInterval,
+	} = definitions;
 
-		// check transformations
-		if (inputTransformation) {
-			value = doMathOperations(inputTransformation, value);
-		}
+	// check transformations
+	if (inputTransformation) {
+		value = doMathOperations(inputTransformation, value);
+	}
 
-		if (!inputIntervalBounds) {
-			inputIntervalBounds = [true, true];
-		}
+	if (!inputIntervalBounds) {
+		inputIntervalBounds = [true, true];
+	}
 
-		if (
-			isGreaterThan(value, inputInterval[0], inputIntervalBounds[0]) &&
-			isGreaterThan(inputInterval[1], value, inputIntervalBounds[1])
-		) {
-			switch (parameter) {
-				case 'outlineWidth':
-				case 'diagramOutlineWidth':
-				case 'outlineOpacity':
-				case 'diagramOpacity':
-				case 'fillOpacity':
-				case 'diagramFillOpacity':
-				case 'size':
-				case 'diagramSize':
-				case 'volume':
-				case 'diagramVolume':
-				case 'arrowLength':
-					return {
-						[parameter]: scaleValue(inputInterval, outputInterval, value),
-					};
-				case 'outlineColor':
-				case 'diagramOutlineColor':
-				case 'fill':
-				case 'diagramFill':
-				case 'color':
-					let scale = chroma.scale(outputInterval).domain(inputInterval);
-					return {
-						[parameter]: chroma(scale(value)).hex(),
-					};
-				default:
-					return {};
-			}
-		} else {
-			return {};
+	if (
+		isGreaterThan(value, inputInterval[0], inputIntervalBounds[0]) &&
+		isGreaterThan(inputInterval[1], value, inputIntervalBounds[1])
+	) {
+		switch (parameter) {
+			case 'outlineWidth':
+			case 'diagramOutlineWidth':
+			case 'outlineOpacity':
+			case 'diagramOpacity':
+			case 'fillOpacity':
+			case 'diagramFillOpacity':
+			case 'size':
+			case 'diagramSize':
+			case 'volume':
+			case 'diagramVolume':
+			case 'arrowLength':
+				return {
+					[parameter]: scaleValue(inputInterval, outputInterval, value),
+				};
+			case 'outlineColor':
+			case 'diagramOutlineColor':
+			case 'fill':
+			case 'diagramFill':
+			case 'color':
+				let scale = chroma.scale(outputInterval).domain(inputInterval);
+				return {
+					[parameter]: chroma(scale(value)).hex(),
+				};
+			default:
+				return {};
 		}
 	} else {
 		return {};
