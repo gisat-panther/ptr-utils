@@ -37,4 +37,12 @@ describe('isGreaterThan', function () {
 
 		assert.isFalse(output);
 	});
+
+	it('no value given', function () {
+		const reference = 0.76;
+
+		const output = style.isGreaterThan(undefined, reference);
+
+		assert.isFalse(output);
+	});
 });
