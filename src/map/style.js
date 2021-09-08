@@ -147,6 +147,7 @@ function getStyleObjectForIntervals(intervals, value) {
 			isGreaterThan(value, interval[0], intervalBounds[0]) &&
 			isGreaterThan(interval[1], value, intervalBounds[1])
 		) {
+			// return whole object (even with non-style props such as interval, intervalBounds, ...) due to performance
 			styleObject = intervalItem;
 		}
 	});
