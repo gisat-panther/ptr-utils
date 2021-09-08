@@ -156,7 +156,7 @@ function getStyleObjectForIntervals(intervals, value) {
 
 /**
  * Get style object for vector attributeValues/raster pixel values for given value
- * @param valuesDefinition {Array} value-based style definition
+ * @param valuesDefinition {Object} value-based style definition
  * @param value {number|string} attribute/pixel value
  * @returns {Object} Panther style object
  */
@@ -231,6 +231,7 @@ function getStyleObjectForScale(scaleDefinition, value) {
 }
 
 /**
+ * TODO still used?
  * @param attributeTransformation {Object} Attribute transformation definitions
  * @param value {number|string} Attribute value
  * @returns {{arrowDirection}|{}} Style object
