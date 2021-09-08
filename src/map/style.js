@@ -259,18 +259,23 @@ function getStyleObjectForAttributeTransformation(
 // HELPERS --------------------------------------------------------------------------------
 
 /**
- * @param inputInterval {Array}
- * @param outputInterval {Array}
+ * Scale value from input range according to output range
+ * @param inputRange {Array}
+ * @param outputRange {Array}
  * @param value {number}
  * @returns {number} scaled value
  */
-function scaleValue(inputInterval, outputInterval, value) {
-	const x1 = inputInterval[0];
-	const x2 = inputInterval[1];
-	const y1 = outputInterval[0];
-	const y2 = outputInterval[1];
+function scaleValue(inputRange, outputRange, value) {
+	const x1 = inputRange[0];
+	const x2 = inputRange[1];
+	const y1 = outputRange[0];
+	const y2 = outputRange[1];
 
-	return (value - x1) * ((y2 - y1) / (x2 - x1)) + y1;
+	if (value >= x1 && value <= x2) {
+		return (value - x1) * ((y2 - y1) / (x2 - x1)) + y1;
+	} else {
+		throw new Error('map/style#scaleValue: Given value is out of input range!');
+	}
 }
 
 /**
