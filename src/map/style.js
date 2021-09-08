@@ -299,7 +299,7 @@ function isGreaterThan(value, referenceValue, allowEquality) {
 
 /**
  * Do math operations with given value
- * @param operations {Object}
+ * @param operations {Array} list of operations
  * @param value {number}
  * @returns {number} adjusted value
  */
