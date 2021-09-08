@@ -3,8 +3,6 @@ import chroma from 'chroma-js';
 
 const DEFAULT_SIZE = 15;
 
-// TODO tests
-
 /**
  * Get style object for vector
  * @param attributes {Object} Feature attributes
@@ -333,6 +331,9 @@ export default {
 	getStyleObject: getStyleObjectForVector,
 	getStyleObjectForRaster,
 	getStyleObjectForVector,
+
+	getStyleObjectForAttribute,
+	getStyleObjectForBand,
 
 	getStyleObjectForIntervals,
 	getStyleObjectForScale,
