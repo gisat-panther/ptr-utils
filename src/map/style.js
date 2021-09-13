@@ -4,7 +4,7 @@ import chroma from 'chroma-js';
 const DEFAULT_SIZE = 15;
 
 /**
- * Get style object for vector
+ * Get style object for vector feature
  * @param attributes {Object} Feature attributes
  * @param styleDefinition {Object} Panther style definition
  * @returns {Object} Merged Panther style object for given feature
@@ -37,7 +37,7 @@ function getStyleObjectForVector(attributes, styleDefinition) {
 }
 
 /**
- * Get style object for raster
+ * Get style object for raster pixel
  * @param bands {Array} Pixel values
  * @param styleDefinition {Object} Panther style definition
  * @returns {Object} Merged Panther style object for given pixel value
@@ -91,7 +91,7 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 				value
 			);
 		} else if (styleDefinition.attributeValues) {
-			return getStyleObjectForValues(styleDefinition.attributeValues, value);
+			return getStyleObjectForValue(styleDefinition.attributeValues, value);
 		}
 		// TODO add other cases
 		else {
@@ -111,7 +111,7 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 function getStyleObjectForBand(styleDefinition, value) {
 	if (value || value === 0) {
 		if (styleDefinition.values) {
-			return getStyleObjectForValues(styleDefinition.values, value);
+			return getStyleObjectForValue(styleDefinition.values, value);
 		} else if (styleDefinition.valueClasses) {
 			return getStyleObjectForIntervals(styleDefinition.valueClasses, value);
 		} else if (styleDefinition.scale) {
@@ -159,7 +159,7 @@ function getStyleObjectForIntervals(intervals, value) {
  * @param value {number|string} attribute/pixel value
  * @returns {Object} Panther style object
  */
-function getStyleObjectForValues(valuesDefinition, value) {
+function getStyleObjectForValue(valuesDefinition, value) {
 	return valuesDefinition[value] || {};
 }
 
@@ -337,7 +337,8 @@ export default {
 
 	getStyleObjectForIntervals,
 	getStyleObjectForScale,
-	getStyleObjectForValues,
+	getStyleObjectForValues: getStyleObjectForValue,
+	getStyleObjectForValue,
 
 	scaleValue,
 	isGreaterThan,
