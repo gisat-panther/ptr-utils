@@ -1,3 +1,15 @@
+# v1.4.0 (Mon Sep 13 2021)
+
+#### 🚀 Enhancement
+
+- Map style utils refactoring & rasters support [#25](https://github.com/gisat-panther/ptr-utils/pull/25) ([@vlach1989](https://github.com/vlach1989))
+
+#### Authors: 1
+
+- Pavel Vlach ([@vlach1989](https://github.com/vlach1989))
+
+---
+
 # v1.3.14 (Wed May 12 2021)
 
 #### 🐾 Patch
