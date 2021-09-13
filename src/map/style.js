@@ -127,7 +127,7 @@ function getStyleObjectForBand(styleDefinition, value) {
 }
 
 /**
- * Get style object for vector attributeClasses/raster valueClasses for given value
+ * Get style object for attributeClasses in vector layer or valueClasses in raster layer for given value.
  * @param intervals {Array} All intervals definitions
  * @param value {number} attribute/pixel value
  * @returns {Object} Panther style object
