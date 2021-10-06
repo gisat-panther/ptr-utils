@@ -30,6 +30,8 @@ const lodashExternal = [
 export default {
 	input: 'src/index.js',
 	external: [
+		'react',
+		'react-dom/server',
 		'isomorphic-fetch',
 		'@turf/bbox',
 		'@turf/center',
