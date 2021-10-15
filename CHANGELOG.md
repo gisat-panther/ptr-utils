@@ -1,3 +1,15 @@
+# v1.5.1 (Fri Oct 15 2021)
+
+#### 🐾 Patch
+
+- Fix/dependencies [#28](https://github.com/gisat-panther/ptr-utils/pull/28) ([@vlach1989](https://github.com/vlach1989))
+
+#### Authors: 1
+
+- Pavel Vlach ([@vlach1989](https://github.com/vlach1989))
+
+---
+
 # v1.5.0 (Mon Oct 11 2021)
 
 #### 🚀 Enhancement
