@@ -32,6 +32,34 @@ describe('getStyleObjectForAttribute', function () {
 		assert.deepStrictEqual(output, expectedOutput);
 	});
 
+	it('should apply transformations for intervals', function () {
+		const attributes2 = {
+			a: -3,
+		};
+
+		const styleDefinition = {
+			attributeKey: 'a',
+			attributeTransformations: ['abs'],
+			attributeClasses: [
+				{
+					interval: [2, 4],
+					fill: '#ffffff',
+				},
+			],
+		};
+
+		const output = style.getStyleObjectForAttribute(
+			styleDefinition,
+			attributes2
+		);
+		const expectedOutput = {
+			interval: [2, 4],
+			fill: '#ffffff',
+		};
+
+		assert.deepStrictEqual(output, expectedOutput);
+	});
+
 	it('should return empty object, if value not found in definition', function () {
 		const styleDefinition = {
 			attributeKey: 'a',
