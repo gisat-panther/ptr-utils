@@ -1,3 +1,15 @@
+# v1.5.2 (Tue Oct 26 2021)
+
+#### 🐾 Patch
+
+- Map styles: enable attribute transformations for intervals [#29](https://github.com/gisat-panther/ptr-utils/pull/29) ([@vlach1989](https://github.com/vlach1989))
+
+#### Authors: 1
+
+- Pavel Vlach ([@vlach1989](https://github.com/vlach1989))
+
+---
+
 # v1.5.1 (Fri Oct 15 2021)
 
 #### 🐾 Patch
