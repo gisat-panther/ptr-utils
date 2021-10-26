@@ -2,6 +2,7 @@ import {assert} from 'chai';
 import style from '../../../src/map/style';
 
 describe('getStyleObjectForIntervals', function () {
+	const attributeTransformations = ['abs'];
 	const intervals = [
 		{
 			interval: [0, 1],
@@ -11,6 +12,10 @@ describe('getStyleObjectForIntervals', function () {
 		{
 			interval: [1, 2],
 			outlineWidth: 2,
+		},
+		{
+			interval: [2, 3],
+			outlineWidth: 3,
 		},
 		{
 			interval: [2, 3],
@@ -35,6 +40,21 @@ describe('getStyleObjectForIntervals', function () {
 		const expectedOutput = {
 			interval: [1, 2],
 			outlineWidth: 2,
+		};
+
+		assert.deepStrictEqual(output, expectedOutput);
+	});
+
+	it('should apply transformations', function () {
+		const value = -2.5;
+		const output = style.getStyleObjectForIntervals(
+			intervals,
+			value,
+			attributeTransformations
+		);
+		const expectedOutput = {
+			interval: [2, 3],
+			outlineWidth: 3,
 		};
 
 		assert.deepStrictEqual(output, expectedOutput);

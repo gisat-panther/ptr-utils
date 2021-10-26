@@ -81,7 +81,8 @@ function getStyleObjectForAttribute(styleDefinition, attributes) {
 		if (styleDefinition.attributeClasses) {
 			return getStyleObjectForIntervals(
 				styleDefinition.attributeClasses,
-				value
+				value,
+				styleDefinition.attributeTransformations
 			);
 		} else if (styleDefinition.attributeScale) {
 			return getStyleObjectForScale(styleDefinition.attributeScale, value);
@@ -130,12 +131,18 @@ function getStyleObjectForBand(styleDefinition, value) {
  * Get style object for attributeClasses in vector layer or valueClasses in raster layer for given value.
  * @param intervals {Array} All intervals definitions
  * @param value {number} attribute/pixel value
+ * @param transformations {Array} list of transformations
  * @returns {Object} Panther style object
  */
-function getStyleObjectForIntervals(intervals, value) {
+function getStyleObjectForIntervals(intervals, value, transformations) {
 	let styleObject = {};
 	_each(intervals, intervalItem => {
 		let {interval, intervalBounds} = intervalItem;
+
+		// check transformations
+		if (transformations) {
+			value = doMathOperations(transformations, value);
+		}
 
 		if (!intervalBounds) {
 			intervalBounds = [true, false];
