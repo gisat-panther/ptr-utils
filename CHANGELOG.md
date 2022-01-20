@@ -1,3 +1,15 @@
+# v1.5.3 (Thu Jan 20 2022)
+
+#### 🐾 Patch
+
+- Typo, use "Crypto" instead of "crypto" [#30](https://github.com/gisat-panther/ptr-utils/pull/30) ([@vdubr](https://github.com/vdubr))
+
+#### Authors: 1
+
+- Vojtěch Dubrovský ([@vdubr](https://github.com/vdubr))
+
+---
+
 # v1.5.2 (Tue Oct 26 2021)
 
 #### 🐾 Patch
