@@ -1,6 +1,7 @@
 import {objectLike as _objectLike, mapValues as _mapValues} from 'lodash';
 import period from './period';
 import {isObjectLike as _isObjectLike} from 'lodash';
+import crypto from 'crypto';
 
 export default {
 	period,
@@ -10,12 +11,24 @@ export default {
 	 * @returns {string|*|void}
 	 */
 	uuid() {
-		return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-			(
-				c ^
-				(Crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-			).toString(16)
+		return crypto.randomUUID();
+	},
+
+	/**
+	 * Return true if uuid parameter is valid uuidv4, else return false.
+	 * About uuid versions: https://www.uuidtools.com/decode
+	 * @param {string} uuid
+	 * @returns {Boolean}
+	 */
+	isValidUuidV4(uuid) {
+		let s = '' + uuid;
+		s = s.match(
+			'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
 		);
+		if (s === null) {
+			return false;
+		}
+		return true;
 	},
 
 	/**
