@@ -207,6 +207,16 @@ const uuids4 = [
 	'8b735e7c-a991-4c6b-8259-afeadafb80d2',
 ];
 
+const uuidLikeStrings = [
+	'3b34bab8-8cbe-1b05-b545-2eb5000bdd21', //version 1
+	'3b34bab8-8cbe-2b05-b545-2eb5000bdd21', //version 2
+	'3b34bab8-8cbe-3b05-b545-2eb5000bdd21', //version 3
+	'3b34bab8-8cbe-5b05-b545-2eb5000bdd21', //version 5
+	'8ff32794-5d10-cb64-32bc-402c8a0ac97g', //with letter "g"
+	'8ff32794-5d10-cb64-32bc-402c8a0ac97z', //with letter "z"
+	'8ff32794-5d10-cb64-32bc-402c8a0ac97aa', //longer
+];
+
 describe('utils/isValidUuidV4', function () {
 	it('Check if strings are invalid for uuidv1', function () {
 		uuids1.forEach(uuid => {
@@ -233,5 +243,11 @@ describe('utils/isValidUuidV4', function () {
 		assert.isFalse(utils.isValidUuidV4(9990));
 		assert.isFalse(utils.isValidUuidV4([]));
 		assert.isFalse(utils.isValidUuidV4({}));
+	});
+
+	it('Check if uuid like strings are invalid', function () {
+		uuidLikeStrings.forEach(uuid => {
+			assert.isFalse(utils.isValidUuidV4(uuid));
+		});
 	});
 });
