@@ -1,3 +1,16 @@
+# v1.5.4 (Mon Jan 24 2022)
+
+#### 🐾 Patch
+
+- Add rollup to externals [#32](https://github.com/gisat-panther/ptr-utils/pull/32) ([@vdubr](https://github.com/vdubr))
+- Fix/crypto [#31](https://github.com/gisat-panther/ptr-utils/pull/31) ([@vdubr](https://github.com/vdubr))
+
+#### Authors: 1
+
+- Vojtěch Dubrovský ([@vdubr](https://github.com/vdubr))
+
+---
+
 # v1.5.3 (Thu Jan 20 2022)
 
 #### 🐾 Patch
