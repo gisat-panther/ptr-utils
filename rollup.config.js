@@ -30,6 +30,7 @@ const lodashExternal = [
 export default {
 	input: 'src/index.js',
 	external: [
+		'crypto',
 		'react',
 		'react-dom/server',
 		'isomorphic-fetch',
