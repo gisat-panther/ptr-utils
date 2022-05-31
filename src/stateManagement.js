@@ -14,6 +14,7 @@ const replaceItemOnIndex = (array, index, item) => [
 	...array.slice(index + 1),
 ];
 const removeItemByKey = (object, key) => {
+	// eslint-disable-next-line no-unused-vars
 	const {[key]: value, ...withoutKey} = object;
 	return withoutKey;
 };

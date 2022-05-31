@@ -1,0 +1,36 @@
+{
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "module"
+	},
+	"plugins": ["prettier"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:prettier/recommended"
+	],
+	"rules": {
+		"prettier/prettier": [
+			"error",
+			{
+				"endOfLine": "auto"
+			}
+		]
+	},
+	"env": {
+		"browser": true,
+		"node": true,
+		"es6": true
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
+	"ignorePatterns": [
+		"dist/*",
+		"lib/*",
+		"build/*",
+		"node_modules/*",
+		"package-lock.json"
+	]
+}

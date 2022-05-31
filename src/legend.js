@@ -12,7 +12,7 @@ const getIntervalTitle = (interval, first) => {
 		: math.roundHigher(interval[0], 2).toLocaleString();
 	const title =
 		interval[1] === interval[0]
-			? round(interval[0], 2).toLocaleString()
+			? math.round(interval[0], 2).toLocaleString()
 			: `${firstRounded} - ${math.round(interval[1], 2).toLocaleString()}`;
 	return title;
 };

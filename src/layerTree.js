@@ -64,7 +64,7 @@ const getFolderByLayerKey = (layersTree, layerKey) => {
 const getFlattenLayerTree = (layersTree = {}) => {
 	const layerTreeKeys = Object.entries(layersTree);
 	const flattenLayers = layerTreeKeys.reduce((acc, val) => {
-		const [key, tree] = val;
+		const [, tree] = val;
 		const flattenLayers = getFlattenLayers(tree);
 		return [...acc, ...flattenLayers];
 	}, []);

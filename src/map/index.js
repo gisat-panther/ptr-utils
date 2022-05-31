@@ -41,7 +41,7 @@ function getLocationFromPlaceString(placeString) {
 								lon = Number(data.lon);
 								if (data.boundingbox) {
 									const bbox = data.boundingbox;
-									boxRange = getBoxRangeFromBoundingBox({
+									boxRange = view.getBoxRangeFromBoundingBox({
 										minLat: bbox[0],
 										maxLat: bbox[1],
 										minLon: bbox[2],

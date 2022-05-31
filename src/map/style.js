@@ -76,7 +76,7 @@ function getStyleObjectForRaster(bands, styleDefinition) {
  * @return {Object} Style object for given attribute key
  */
 function getStyleObjectForAttribute(styleDefinition, attributes) {
-	if (attributes.hasOwnProperty(styleDefinition.attributeKey)) {
+	if (Object.hasOwn(attributes, styleDefinition.attributeKey)) {
 		let value = attributes[styleDefinition.attributeKey];
 		if (styleDefinition.attributeClasses) {
 			return getStyleObjectForIntervals(
@@ -219,11 +219,12 @@ function getStyleObjectForScale(scaleDefinition, value) {
 			case 'diagramOutlineColor':
 			case 'fill':
 			case 'diagramFill':
-			case 'color':
+			case 'color': {
 				let scale = chroma.scale(outputInterval).domain(inputInterval);
 				return {
 					[parameter]: chroma(scale(value)).hex(),
 				};
+			}
 			default:
 				return {};
 		}

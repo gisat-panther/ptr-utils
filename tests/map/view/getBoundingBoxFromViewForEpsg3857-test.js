@@ -1,3 +1,4 @@
+import {describe, it} from 'mocha';
 import {assert} from 'chai';
 import view from '../../../src/map/view';
 
@@ -32,7 +33,6 @@ describe('getBoundingBoxFromViewForEpsg3857', function () {
 	it('returns expected bounding box around Prague', function () {
 		// given params
 		const center = {lat: 50, lon: 15};
-		const center3857 = {x: 1669792.36, y: 6446275.84};
 
 		const boxRange = 20000;
 		const viewportRatio = 2; // approx. 20 x 40 km

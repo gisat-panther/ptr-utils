@@ -1,4 +1,4 @@
-import {objectLike as _objectLike, mapValues as _mapValues} from 'lodash';
+import {mapValues as _mapValues} from 'lodash';
 import period from './period';
 import {isObjectLike as _isObjectLike} from 'lodash';
 import crypto from 'crypto';
@@ -81,15 +81,10 @@ export default {
 		}
 	},
 
-	scrollTo(elementId, containerId, duration) {
-		let animationDuration = duration ? duration : 200;
-		let container = document.getElementById(containerId);
+	scrollTo(elementId, containerId) {
 		let element = document.getElementById(elementId);
 
 		let elementOffset = element.offsetTop;
-		let elementHeight = element.offsetHeight;
-		let containerHeight = container.offsetHeight;
-		let scroll = elementOffset + elementHeight - containerHeight + 10;
 
 		document.getElementById(containerId).scrollTop = elementOffset;
 	},
