@@ -6,7 +6,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Set the correct Node version using nvm
-                shell: bash -l {0}
-                run: nvm install
+              shell: bash -l {0}
+              run: nvm install
             - run: npm ci
             - run: npm test
