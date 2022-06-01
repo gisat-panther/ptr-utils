@@ -30,7 +30,7 @@
 		"react-dom": "^16.13.1 || ^17.0.2 || ^18.1.0"
 	},
 	"dependencies": {
-		"@gisatcz/ptr-core": "^1.6.2-0",
+		"@gisatcz/ptr-core": "^1.6.2-1",
 		"@turf/bbox": "^6.5.0",
 		"@turf/center": "^6.5.0",
 		"chroma-js": "^2.1.2",
