@@ -69,7 +69,7 @@ class CyclicPickController {
 		}
 	}
 
-	onMouseOut(wwd, cb, event) {
+	onMouseOut(wwd, cb) {
 		this.mouseDown = false;
 
 		//remove all highlited

@@ -19,10 +19,9 @@ jobs:
             - name: Prepare repository
               run: git fetch --unshallow --tags
 
-            - name: Use Node.js 12.x
-              uses: actions/setup-node@v1
-              with:
-                  node-version: 12.x
+            - name: Set the correct Node version using nvm
+              shell: bash -l {0}
+              run: nvm install
 
             - name: Cache node modules
               uses: actions/cache@v1

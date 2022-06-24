@@ -1,3 +1,4 @@
+import {describe, it} from 'mocha';
 import {assert} from 'chai';
 import period from '../src/period';
 import moment from 'moment';

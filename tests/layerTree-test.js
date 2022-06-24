@@ -1,3 +1,4 @@
+import {describe, it} from 'mocha';
 import {assert} from 'chai';
 import layerTree from '../src/layerTree';
 
@@ -168,7 +169,7 @@ describe('layerTree', function () {
 			{
 				name: 'empty tree',
 				layersTree: [],
-				callback: item => 1,
+				callback: () => 1,
 				expectedResult: [],
 			},
 			{

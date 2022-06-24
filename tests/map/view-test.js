@@ -1,3 +1,4 @@
+import {describe, it} from 'mocha';
 import {assert} from 'chai';
 import {cloneDeep} from 'lodash';
 import {mapConstants} from '@gisatcz/ptr-core';
@@ -14,7 +15,6 @@ import {
 	getPixelSizeFromZoomLevel,
 	getNearestZoomLevelBoxRange,
 } from '../../src/map/view';
-import {contrast} from 'chroma-js';
 
 const validView = {
 	heading: 0,
