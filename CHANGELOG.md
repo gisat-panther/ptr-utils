@@ -1,3 +1,16 @@
+# v1.6.0 (Fri Jun 24 2022)
+
+#### 🚀 Enhancement
+
+- Add auto package [#39](https://github.com/gisat-panther/ptr-utils/pull/39) ([@vdubr](https://github.com/vdubr))
+- :sparkles: [#38](https://github.com/gisat-panther/ptr-utils/pull/38) ([@vdubr](https://github.com/vdubr))
+
+#### Authors: 1
+
+- Vojtěch Dubrovský ([@vdubr](https://github.com/vdubr))
+
+---
+
 # v1.5.4 (Mon Jan 24 2022)
 
 #### 🐾 Patch
